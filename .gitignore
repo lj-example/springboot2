@@ -30,3 +30,4 @@ mvnw.cmd
 
 ### VS Code ###
 .vscode/
+/base-start/target/

@@ -12,6 +12,7 @@
 
     <groupId>com.lj.springBoot</groupId>
     <artifactId>spring-boot-base-main-start</artifactId>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -25,4 +26,22 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <warName>spring-boot-test</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
