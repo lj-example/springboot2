@@ -11,8 +11,12 @@
 
 
     <groupId>com.lj.springBoot</groupId>
-    <artifactId>spring-boot-base-main-start</artifactId>
+    <artifactId>main-start</artifactId>
     <packaging>war</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -33,10 +37,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
