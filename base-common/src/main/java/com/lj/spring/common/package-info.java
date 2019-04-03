@@ -2,4 +2,4 @@
  * 常用工具封装
  * Created by lijun on 2019/3/26
  */
-package com.lj.spring.start.common;
+package com.lj.spring.common.common;

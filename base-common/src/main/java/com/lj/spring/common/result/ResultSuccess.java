@@ -1,30 +1,13 @@
-package com.lj.spring.start.common.result;
+package com.lj.spring.common.result;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * Created by lijun on 2019/3/26
  */
 @Data
-public final class SuccessResult extends Result implements Serializable {
-
-    /**
-     * 状态值
-     */
-    protected Integer code;
-
-    /**
-     * 提示信息
-     */
-    protected String message;
-
-    /**
-     * 返回结果值
-     */
-    protected Object data;
+public final class ResultSuccess extends Result{
 
     /**
      * 默认状态码
@@ -37,7 +20,7 @@ public final class SuccessResult extends Result implements Serializable {
     private static final String SUCCESS_MESSAGE = "操作成功";
 
     @Builder
-    public SuccessResult(Integer code, String message, Object data) {
+    public ResultSuccess(Integer code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -46,8 +29,8 @@ public final class SuccessResult extends Result implements Serializable {
     /**
      * 正常响应构建
      */
-    public static SuccessResult buildResult(Object result) {
-        return SuccessResult.builder()
+    public static ResultSuccess buildResult(Object result) {
+        return ResultSuccess.builder()
                 .code(SUCCESS_CODE)
                 .data(result)
                 .message(SUCCESS_MESSAGE)

@@ -37,6 +37,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- 引入自定义组件 -->
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
+            <artifactId>spring-boot-base-common</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
