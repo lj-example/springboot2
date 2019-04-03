@@ -22,16 +22,15 @@
         <commons-beanutils.version>1.8.3</commons-beanutils.version>
         <guava.version>18.0</guava.version>
 
-        <lombok.version>1.16.18</lombok.version>
         <!--json-->
         <fastjson.version>1.2.31</fastjson.version>
 
         <!--版本信息 -->
-        <spring.boot.data.druid>1.0-SNAPSHOT</spring.boot.data.druid>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
             <!-- common 工具包  -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -70,20 +69,10 @@
             <!-- spring 相关 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
+                <artifactId>spring-boot-dependencies</artifactId>
                 <version>${springboot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-tomcat</artifactId>
-                <version>${springboot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- swagger API文档 -->
@@ -98,10 +87,16 @@
                 <version>${swagger.version}</version>
             </dependency>
 
-
         </dependencies>
     </dependencyManagement>
 
+    <!--公共的组件-->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <!-- 设置环境信息 -->
     <profiles>
@@ -114,18 +109,21 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+
         <profile>
             <id>test</id>
             <properties>
                 <project.environment>test</project.environment>
             </properties>
         </profile>
+
         <profile>
             <id>release</id>
             <properties>
                 <project.environment>release</project.environment>
             </properties>
         </profile>
+
         <profile>
             <id>product</id>
             <properties>
@@ -135,9 +133,24 @@
     </profiles>
 
 
-    <!-- 声明构建信息 -->
+    <!-- 构建脚本 -->
     <build>
         <plugins>
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>${springboot.version}</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>-->
+                                <!--repackage-->
+                            <!--</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
@@ -150,6 +163,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <!-- explicitly define maven-deploy-plugin after other to force exec order -->
                 <artifactId>maven-deploy-plugin</artifactId>

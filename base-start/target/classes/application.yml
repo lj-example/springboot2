@@ -4,3 +4,15 @@ server:
     context-path: /t
 
 
+spring:
+    ### jackson配置
+    jackson:
+      serialization:
+        write_dates_as_timestamps: false
+        fail_on_empty_beans: false
+      deserialization:
+        fail_on_unknown_properties: false
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+      default-property-inclusion: non_null
+
