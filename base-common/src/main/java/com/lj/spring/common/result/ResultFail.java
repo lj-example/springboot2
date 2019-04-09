@@ -5,7 +5,7 @@ import lombok.Builder;
 /**
  * Created by lijun on 2019/3/26
  */
-public final class ResultFail extends Result{
+public class ResultFail extends Result {
 
     /**
      * 默认状态码
@@ -24,9 +24,7 @@ public final class ResultFail extends Result{
         this.data = data;
     }
 
-    /**
-     * 失败响应构建
-     */
+
     public static ResultFail buildResult(Object result) {
         return ResultFail.builder()
                 .code(FAIL_CODE)
@@ -35,4 +33,43 @@ public final class ResultFail extends Result{
                 .build();
     }
 
+    public static ResultFail buildResult(Integer code) {
+        return ResultFail.builder()
+                .code(code)
+                .data(null)
+                .message(FAIL_MESSAGE)
+                .build();
+    }
+
+    public static ResultFail buildResult(String message) {
+        return ResultFail.builder()
+                .code(FAIL_CODE)
+                .data(null)
+                .message(message)
+                .build();
+    }
+
+    public static ResultFail buildResult(Integer code, String message) {
+        return ResultFail.builder()
+                .code(code)
+                .data(null)
+                .message(message)
+                .build();
+    }
+
+    public static ResultFail defaultResultFail() {
+        return ResultFail.builder()
+                .code(FAIL_CODE)
+                .data(null)
+                .message(FAIL_MESSAGE)
+                .build();
+    }
+
+    public static Integer getFailCode() {
+        return FAIL_CODE;
+    }
+
+    public static String getFailMessage() {
+        return FAIL_MESSAGE;
+    }
 }

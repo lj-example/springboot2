@@ -9,6 +9,12 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <!--声明子模块-->
+    <modules>
+        <module>../base-start</module>
+        <module>../base-common</module>
+    </modules>
+
     <!-- 设置当前使用组件版本细信息 -->
     <properties>
         <jdk.version>1.8</jdk.version>
@@ -143,20 +149,6 @@
     <!-- 构建脚本 -->
     <build>
         <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                <!--<version>${springboot.version}</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>-->
-                                <!--repackage-->
-                            <!--</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
 
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>

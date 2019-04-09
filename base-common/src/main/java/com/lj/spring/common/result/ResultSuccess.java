@@ -7,7 +7,7 @@ import lombok.Data;
  * Created by lijun on 2019/3/26
  */
 @Data
-public final class ResultSuccess extends Result{
+public final class ResultSuccess extends Result {
 
     /**
      * 默认状态码
@@ -37,4 +37,11 @@ public final class ResultSuccess extends Result{
                 .build();
     }
 
+    public static ResultSuccess defaultResultSuccess() {
+        return ResultSuccess.builder()
+                .code(SUCCESS_CODE)
+                .data(null)
+                .message(SUCCESS_MESSAGE)
+                .build();
+    }
 }

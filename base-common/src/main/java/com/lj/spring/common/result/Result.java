@@ -1,25 +1,28 @@
 package com.lj.spring.common.result;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 
 /**
  * Created by lijun on 2019/3/26
  */
+@Getter
 public abstract class Result implements Serializable {
 
     /**
      * 状态值
      */
-    public Integer code;
+    protected Integer code;
 
     /**
      * 提示信息
      */
-    public String message;
+    protected String message;
 
     /**
      * 返回结果值
      */
-    public Object data;
+    protected Object data;
 
 }
