@@ -30,9 +30,9 @@ mvnw.cmd
 
 ### VS Code ###
 .vscode/
-/base-start/target/
 /base-start/src/main/resources/rebel.xml
 /base-start/.rebel-remote.xml.bak
 /rebel.xml
 /base-common/target/
 /base-start/.rebel.xml.bak
+*/target
