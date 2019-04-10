@@ -12,7 +12,8 @@
     <!--声明子模块-->
     <modules>
         <module>../base-start</module>
-        <module>../base-common</module>
+        <module>../spring-boot-common-util</module>
+        <module>../spring-boot-start</module>
     </modules>
 
     <!-- 设置当前使用组件版本细信息 -->
@@ -32,7 +33,10 @@
         <fastjson.version>1.2.31</fastjson.version>
 
         <!--组件版本信息 -->
-        <spring-boot-base-common>1.0-SNAPSHOT</spring-boot-base-common>
+        <spring-boot-start-web-tool>1.0-SNAPSHOT</spring-boot-start-web-tool>
+
+        <!--常用工具-->
+        <spring-boot-common-util-mail>1.0-SNAPSHOT</spring-boot-common-util-mail>
     </properties>
 
     <dependencyManagement>
@@ -97,8 +101,14 @@
             <!-- 自定义组件 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
-                <artifactId>spring-boot-base-common</artifactId>
-                <version>${spring-boot-base-common}</version>
+                <artifactId>spring-boot-start-web-tool</artifactId>
+                <version>${spring-boot-start-web-tool}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>common-util-mail</artifactId>
+                <version>${spring-boot-common-util-mail}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

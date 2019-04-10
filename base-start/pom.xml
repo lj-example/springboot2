@@ -29,8 +29,17 @@
         <!-- 引入自定义组件 -->
         <dependency>
             <groupId>com.lj.springBoot</groupId>
-            <artifactId>spring-boot-base-common</artifactId>
+            <artifactId>spring-boot-start-web-tool</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
+            <artifactId>common-util-mail</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-mail</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
