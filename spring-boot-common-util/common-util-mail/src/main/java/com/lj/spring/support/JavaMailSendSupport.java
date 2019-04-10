@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import java.util.Properties;
 
@@ -46,9 +47,20 @@ public class JavaMailSendSupport {
         return javaMailSender;
     }
 
+    @Bean("javaMailFreeMarkerConfigurer")
+    public FreeMarkerConfigurer freeMarkerConfigurer() {
+        MailProperties.MailFreeMarkConfigurer freeMark = mailProperties.getFreeMark();
+        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+        freeMarkerConfigurer.setTemplateLoaderPath(freeMark.getTemplateLoaderPath());
+        freeMarkerConfigurer.setDefaultEncoding(freeMark.getCharset());
+        return freeMarkerConfigurer;
+    }
+
     @Bean
     @ConditionalOnMissingBean(MailSenderTemplate.class)
-    public MailSenderTemplate mailSenderTemplate(@Qualifier("simpleJavaMailSender") JavaMailSender javaMailSender) {
-        return new MailSenderTemplateImpl(mailProperties, javaMailSender);
+    public MailSenderTemplate mailSenderTemplate(
+            @Qualifier("simpleJavaMailSender") JavaMailSender javaMailSender,
+            @Qualifier("javaMailFreeMarkerConfigurer") FreeMarkerConfigurer freeMarkerConfigurer) {
+        return new MailSenderTemplateImpl(mailProperties, javaMailSender, freeMarkerConfigurer);
     }
 }

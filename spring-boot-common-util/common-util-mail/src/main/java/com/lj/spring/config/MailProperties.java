@@ -1,6 +1,7 @@
 package com.lj.spring.config;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.nio.charset.Charset;
@@ -13,6 +14,8 @@ import java.util.HashMap;
 @Data
 @ConfigurationProperties(prefix = "spring.mail")
 public class MailProperties {
+
+    private MailFreeMarkConfigurer freeMark = new MailFreeMarkConfigurer();
 
     /**
      * 邮件主机地址
@@ -27,12 +30,12 @@ public class MailProperties {
     /**
      * 用户名
      */
-    private String username = "**";
+    private String username = "alarm@taixincf.com";
 
     /**
      * 密码
      */
-    private String password = "**";
+    private String password = "Hexin20181130";
 
     /**
      * 是否开启调试
@@ -53,6 +56,29 @@ public class MailProperties {
      * 其他配置
      */
     private HashMap<String, Object> properties;
+
+    /**
+     *
+     */
+    @Data
+    public static class MailFreeMarkConfigurer {
+
+        /**
+         * 加载路径
+         */
+        private String templateLoaderPath = FreeMarkerProperties.DEFAULT_TEMPLATE_LOADER_PATH;
+
+        /**
+         * 编码
+         */
+        private String charset = Charset.forName("UTF-8").name();
+
+        /**
+         * 模板后缀
+         */
+        private String suffix = FreeMarkerProperties.DEFAULT_SUFFIX;
+
+    }
 
     public MailProperties() {
         HashMap<String, Object> props = new HashMap<>();

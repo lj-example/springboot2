@@ -1,5 +1,8 @@
 package com.lj.spring.core;
 
+import com.lj.spring.model.SimpleMailMessage;
+import com.lj.spring.model.TemplateSimpleMailMessage;
+
 /**
  * Created by lijun on 2019/4/9
  */
@@ -7,10 +10,11 @@ public interface MailSenderTemplate {
 
     /**
      * 发送基础邮件
-     *
-     * @param to      目标用户
-     * @param subject 主题
-     * @param content 内容
      */
-    void sendSimpleMail(String to, String subject, String content);
+    void sendSimpleMail(SimpleMailMessage simpleMailMessage);
+
+    /**
+     * 发送模板邮件
+     */
+    void sendTemplateMail(TemplateSimpleMailMessage templateMailMessage);
 }
