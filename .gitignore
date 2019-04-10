@@ -31,7 +31,8 @@ mvnw.cmd
 ### VS Code ###
 .vscode/
 
-*/rebel.xml
 */target
 */.rebel-remote.xml.bak
 */.rebel.xml.bak
+/rebel.xml
+
