@@ -1,38 +1,49 @@
-HELP.md
+# common ignore
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar
+*.tar.gz
+
+# plugin ignore
+rebel.xml
+
+# maven ignore
+target/
 /target/
-mvnw
-mvnw.cmd
-/.mvn/*
-!.mvn/wrapper/maven-wrapper.jar
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
+# myeclipse ignore
+.mymetadata
+
+# eclipse ignore
+.settings/
+.tomcatplugin
 .project
-.settings
-.springBeans
-.sts4-cache
+.classpath
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
+# idea ignore
+.idea/
 *.ipr
+*.iml
+*.iws
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-/build/
+# temp ignore
+classes/
+logs/
+work/
+log/
+*.doc
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+*.bak
 
 ### VS Code ###
 .vscode/
 
-*/target
-*/.rebel-remote.xml.bak
-*/.rebel.xml.bak
 /rebel.xml
 

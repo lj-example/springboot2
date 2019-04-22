@@ -1,5 +1,6 @@
 package com.lj.spring.core;
 
+import com.lj.spring.model.AttachmentMailMessage;
 import com.lj.spring.model.SimpleMailMessage;
 import com.lj.spring.model.TemplateSimpleMailMessage;
 
@@ -17,4 +18,10 @@ public interface MailSenderTemplate {
      * 发送模板邮件
      */
     void sendTemplateMail(TemplateSimpleMailMessage templateMailMessage);
+
+
+    /**
+     * 发送带有附件的邮件
+     */
+    void sendAttachmentMail(AttachmentMailMessage attachmentMailMessage);
 }

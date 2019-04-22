@@ -2,6 +2,7 @@ package com.lj.spring.core.impl;
 
 import com.lj.spring.config.MailProperties;
 import com.lj.spring.core.MailSenderTemplate;
+import com.lj.spring.model.AttachmentMailMessage;
 import com.lj.spring.model.SimpleMailMessage;
 import com.lj.spring.model.TemplateSimpleMailMessage;
 import freemarker.template.Template;
@@ -19,12 +20,14 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,8 +68,10 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
                 if (!templateName.endsWith(freeMarkConfigurer.getSuffix())) {
                     templateName += freeMarkConfigurer.getSuffix();
                 }
-                Template template = freeMarkerConfigurer.getConfiguration().getTemplate(templateName, freeMarkConfigurer.getCharset());
-                String templateIntoString = FreeMarkerTemplateUtils.processTemplateIntoString(template, templateMailMessage.getData());
+                Template template = freeMarkerConfigurer.getConfiguration()
+                        .getTemplate(templateName, freeMarkConfigurer.getCharset());
+                String templateIntoString = FreeMarkerTemplateUtils
+                        .processTemplateIntoString(template, templateMailMessage.getData());
                 mimeMessageHelper.setText(templateIntoString, true);
                 javaMailSender.send(mimeMessage);
             } catch (MessagingException e) {
@@ -77,6 +82,48 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
                 e.printStackTrace();
             } catch (TemplateException e) {
                 log.info(buildFailMessage("模板转换失败！"));
+                e.printStackTrace();
+            } catch (Exception e) {
+                log.info(buildFailMessage("未知原因发送失败！"));
+                e.printStackTrace();
+            }
+        };
+        SEND_POOL.submit(task);
+    }
+
+    @Override
+    public void sendAttachmentMail(AttachmentMailMessage attachmentMailMessage) {
+        validateAttachmentMailMessageInfo(attachmentMailMessage);
+        //获取文件的最终 文件名，拼接 后缀
+        BiFunction<String, String, String> getFileName = (fileName, filePath) -> {
+            String prefix = filePath.substring(filePath.lastIndexOf("."));
+            if (!fileName.endsWith(prefix)) {
+                fileName = fileName + prefix;
+            }
+            return fileName;
+        };
+        Runnable task = () -> {
+            final MimeMessage mimeMessage = buildMimeMessageByMailMessage(attachmentMailMessage);
+            try {
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+                mimeMessageHelper.setText(attachmentMailMessage.getContent(), true);
+                for (AttachmentMailMessage.Attachment attachment : attachmentMailMessage.getAttachmentList()) {
+                    String filName = attachment.getFileName();
+                    String filePath = attachment.getFilePath();
+                    final File file = new File(filePath);
+                    mimeMessageHelper.addAttachment(getFileName.apply(filName, file.getAbsolutePath()), file);
+                }
+                javaMailSender.send(mimeMessage);
+                attachmentMailMessage.getAttachmentList().stream()
+                        .filter(AttachmentMailMessage.Attachment::getIsDelete)
+                        .forEach(attachment ->
+                                new File(attachment.getFilePath()).delete()
+                        );
+            } catch (MessagingException e) {
+                log.info(buildFailMessage("邮件附件初始化失败！"));
+                e.printStackTrace();
+            } catch (Exception e) {
+                log.info(buildFailMessage("未知原因发送失败！"));
                 e.printStackTrace();
             }
         };
@@ -112,6 +159,17 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
     }
 
     /**
+     * 验证附件邮件
+     */
+    private static void validateAttachmentMailMessageInfo(AttachmentMailMessage attachmentMailMessage) {
+        Assert.isTrue(!StringUtils.isEmpty(attachmentMailMessage.getSubject()), "邮件主题不能为空！");
+        Assert.isTrue(!isEmptyCollection(attachmentMailMessage.getToUserList()), "收件人不能为空！");
+        Assert.isTrue(!StringUtils.isEmpty(attachmentMailMessage.getContent()), "邮件内容不能为空！");
+        Assert.isTrue(!isEmptyCollection(attachmentMailMessage.getAttachmentList()), "附件信息不能为空！");
+    }
+
+
+    /**
      * 构建邮件发送
      *
      * @param simpleMailMessage
@@ -132,7 +190,8 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
             log.info(buildFailMessage("邮件基础信息构建失败！"));
             e.printStackTrace();
         }
-        Function<List<String>, String> listToString = (list) -> list.stream().distinct().collect(Collectors.joining(","));
+        Function<List<String>, String> listToString = (list) -> list.stream()
+                .distinct().collect(Collectors.joining(","));
         try {
             String internetAddressTo = listToString.apply(simpleMailMessage.getToUserList());
             mimeMessage.setRecipients(Message.RecipientType.TO, internetAddressTo);
