@@ -11,7 +11,8 @@
 rebel.xml
 
 # maven ignore
-
+target/
+/target/
 
 # myeclipse ignore
 .mymetadata
