@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 模板邮件
+ * 附件邮件 - 文件地址形式
  * Created by lijun on 2019/4/22
  */
 @Data

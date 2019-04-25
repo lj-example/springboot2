@@ -1,6 +1,7 @@
 package com.lj.spring.core;
 
 import com.lj.spring.model.AttachmentMailMessage;
+import com.lj.spring.model.AttachmentStreamMailMessage;
 import com.lj.spring.model.SimpleMailMessage;
 import com.lj.spring.model.TemplateSimpleMailMessage;
 
@@ -24,4 +25,9 @@ public interface MailSenderTemplate {
      * 发送带有附件的邮件
      */
     void sendAttachmentMail(AttachmentMailMessage attachmentMailMessage);
+
+    /**
+     * 发送带有附件的邮件，附件为文件流的形式
+     */
+    void sendAttachmentStreamMail(AttachmentStreamMailMessage attachmentStreamMailMessage);
 }

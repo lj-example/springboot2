@@ -37,6 +37,8 @@
 
         <!--常用工具-->
         <spring-boot-common-util-mail>1.0-SNAPSHOT</spring-boot-common-util-mail>
+        <spring-boot-common-util-base>1.0-SNAPSHOT</spring-boot-common-util-base>
+
     </properties>
 
     <dependencyManagement>
@@ -108,6 +110,12 @@
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-mail</artifactId>
+                <version>${spring-boot-common-util-mail}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>common-util-base</artifactId>
                 <version>${spring-boot-common-util-mail}</version>
             </dependency>
         </dependencies>

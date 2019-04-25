@@ -3,10 +3,12 @@ package com.lj.spring.core.impl;
 import com.lj.spring.config.MailProperties;
 import com.lj.spring.core.MailSenderTemplate;
 import com.lj.spring.model.AttachmentMailMessage;
+import com.lj.spring.model.AttachmentStreamMailMessage;
 import com.lj.spring.model.SimpleMailMessage;
 import com.lj.spring.model.TemplateSimpleMailMessage;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -22,6 +24,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -49,8 +52,13 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
     public void sendSimpleMail(SimpleMailMessage simpleMailMessage) {
         validateMailMessageInfo(simpleMailMessage);
         Runnable task = () -> {
-            final MimeMessage mimeMessage2 = buildMimeMessageByMailMessage(simpleMailMessage);
-            javaMailSender.send(mimeMessage2);
+            try {
+                final MimeMessage mimeMessage = buildMimeMessageByMailMessage(simpleMailMessage);
+                javaMailSender.send(mimeMessage);
+            } catch (Exception e) {
+                log.info(buildFailMessage("未知原因发送失败！"));
+                e.printStackTrace();
+            }
         };
         SEND_POOL.submit(task);
     }
@@ -131,6 +139,38 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
     }
 
     @Override
+    public void sendAttachmentStreamMail(AttachmentStreamMailMessage mailMessage) {
+        validateAttachmentStreamMailMessageInfo(mailMessage);
+        Runnable task = () -> {
+            //发送邮件
+            try {
+                final MimeMessage mimeMessage = buildMimeMessageByMailMessage(mailMessage);
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+                mimeMessageHelper.setText(mailMessage.getContent(), true);
+                for (AttachmentStreamMailMessage.AttachmentStream attachment : mailMessage.getAttachmentStreamList()) {
+                    mimeMessageHelper.addAttachment(attachment.getFileName(), attachment.getInputStreamSource());
+                }
+                javaMailSender.send(mimeMessage);
+                mailMessage.getAttachmentStreamList().forEach(attachmentStream -> {
+                    try {
+                        @Cleanup InputStream inputStream = attachmentStream.getInputStreamSource().getInputStream();
+                    } catch (IOException e) {
+                        log.info(buildFailMessage("数据流清理失败！"));
+                        e.printStackTrace();
+                    }
+                });
+            } catch (MessagingException e) {
+                log.info(buildFailMessage("邮件附件初始化失败！"));
+                e.printStackTrace();
+            } catch (Exception e) {
+                log.info(buildFailMessage("未知原因发送失败！"));
+                e.printStackTrace();
+            }
+        };
+        SEND_POOL.submit(task);
+    }
+
+    @Override
     public void afterPropertiesSet() {
         SEND_POOL = Executors.newFixedThreadPool(mailProperties.getSendPoolSize(), (runnable) -> {
             final ThreadFactory defaultFactory = Executors.defaultThreadFactory();
@@ -168,6 +208,15 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
         Assert.isTrue(!isEmptyCollection(attachmentMailMessage.getAttachmentList()), "附件信息不能为空！");
     }
 
+    /**
+     * 验证附件邮件
+     */
+    private static void validateAttachmentStreamMailMessageInfo(AttachmentStreamMailMessage mailMessage) {
+        Assert.isTrue(!StringUtils.isEmpty(mailMessage.getSubject()), "邮件主题不能为空！");
+        Assert.isTrue(!isEmptyCollection(mailMessage.getToUserList()), "收件人不能为空！");
+        Assert.isTrue(!StringUtils.isEmpty(mailMessage.getContent()), "邮件内容不能为空！");
+        Assert.isTrue(!isEmptyCollection(mailMessage.getAttachmentStreamList()), "附件信息不能为空！");
+    }
 
     /**
      * 构建邮件发送
