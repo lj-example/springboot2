@@ -22,9 +22,11 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -46,7 +48,6 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
     private final FreeMarkerConfigurer freeMarkerConfigurer;
 
     private static ExecutorService SEND_POOL;
-
 
     @Override
     public void sendSimpleMail(SimpleMailMessage simpleMailMessage) {
@@ -108,6 +109,12 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
             if (!fileName.endsWith(prefix)) {
                 fileName = fileName + prefix;
             }
+            try {
+                fileName = MimeUtility.encodeText(fileName, mailProperties.getCharset().name(), "B");
+            } catch (UnsupportedEncodingException e) {
+                log.info(buildFailMessage("附件名称格式化错误！"));
+                e.printStackTrace();
+            }
             return fileName;
         };
         Runnable task = () -> {
@@ -143,12 +150,19 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
         validateAttachmentStreamMailMessageInfo(mailMessage);
         Runnable task = () -> {
             //发送邮件
+            final MimeMessage mimeMessage = buildMimeMessageByMailMessage(mailMessage);
             try {
-                final MimeMessage mimeMessage = buildMimeMessageByMailMessage(mailMessage);
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
                 mimeMessageHelper.setText(mailMessage.getContent(), true);
                 for (AttachmentStreamMailMessage.AttachmentStream attachment : mailMessage.getAttachmentStreamList()) {
-                    mimeMessageHelper.addAttachment(attachment.getFileName(), attachment.getInputStreamSource());
+                    try {
+                        String fileName = MimeUtility.encodeText(attachment.getFileName(),
+                                mailProperties.getCharset().name(), "Q");
+                        mimeMessageHelper.addAttachment(fileName, attachment.getInputStreamSource());
+                    } catch (UnsupportedEncodingException e) {
+                        log.info(buildFailMessage("附件名称格式化错误！"));
+                        e.printStackTrace();
+                    }
                 }
                 javaMailSender.send(mimeMessage);
                 mailMessage.getAttachmentStreamList().forEach(attachmentStream -> {
@@ -219,10 +233,10 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
     }
 
     /**
-     * 构建邮件发送
+     * 构建邮件发送基础对象
      *
-     * @param simpleMailMessage
-     * @return
+     * @param simpleMailMessage 邮件基础信息
+     * @return 邮件发送基础对象
      */
     private MimeMessage buildMimeMessageByMailMessage(SimpleMailMessage simpleMailMessage) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();

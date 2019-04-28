@@ -43,7 +43,8 @@ public class JavaMailSendSupport {
         Properties properties = new Properties();
         properties.putAll(mailProperties.getProperties());
         javaMailSender.setJavaMailProperties(properties);
-
+        //邮件附件名字太长是否会被截断
+        System.getProperties().setProperty("mail.mime.splitlongparameters", "false");
         return javaMailSender;
     }
 
