@@ -30,12 +30,12 @@ public class MailProperties {
     /**
      * 用户名
      */
-    private String username = "alarm@taixincf.com";
+    private String username = "xxxx";
 
     /**
      * 密码
      */
-    private String password = "Hexin20181130";
+    private String password = "xxxx";
 
     /**
      * 是否开启调试
