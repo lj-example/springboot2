@@ -1,4 +1,4 @@
-package com.lj.spring.start.controller;
+package com.lj.spring.controller;
 
 import com.google.common.collect.Lists;
 import com.lj.spring.common.exception.exceptionResolver.ResultCommon;

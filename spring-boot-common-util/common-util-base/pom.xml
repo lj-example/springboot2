@@ -10,10 +10,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-util-base</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <org.apache.poi.poi>3.9</org.apache.poi.poi>
         <org.apache.poi.poi-ooxml>3.9</org.apache.poi.poi-ooxml>
+
+        <com.googlecode.libphonenumber.libphonenumber>8.9.2</com.googlecode.libphonenumber.libphonenumber>
+        <com.googlecode.libphonenumber.carrier>1.81</com.googlecode.libphonenumber.carrier>
+        <com.googlecode.libphonenumber.geocoder>2.91</com.googlecode.libphonenumber.geocoder>
 
     </properties>
 
@@ -34,22 +39,20 @@
             <version>${org.apache.poi.poi-ooxml}</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>libphonenumber</artifactId>
-            <version>8.9.2</version>
+            <version>${com.googlecode.libphonenumber.libphonenumber}</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>carrier</artifactId>
-            <version>1.81</version>
+            <version>${com.googlecode.libphonenumber.carrier}</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>geocoder</artifactId>
-            <version>2.91</version>
+            <version>${com.googlecode.libphonenumber.geocoder}</version>
         </dependency>
-
     </dependencies>
 </project>

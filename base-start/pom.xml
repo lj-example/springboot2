@@ -47,6 +47,15 @@
             <artifactId>common-util-base</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
+            <artifactId>common-util-dataSource</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
+            <artifactId>common-util-mybatis</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

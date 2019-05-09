@@ -38,13 +38,14 @@
         <!--常用工具-->
         <spring-boot-common-util-mail>1.0-SNAPSHOT</spring-boot-common-util-mail>
         <spring-boot-common-util-base>1.0-SNAPSHOT</spring-boot-common-util-base>
-
+        <spring-boot-common-util-dataSource>1.0-SNAPSHOT</spring-boot-common-util-dataSource>
+        <spring-boot-common-util-mybatis>1.0-SNAPSHOT</spring-boot-common-util-mybatis>
     </properties>
 
     <dependencyManagement>
         <dependencies>
 
-            <!-- common 工具包  -->
+            <!-- dataSource 工具包  -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -117,6 +118,18 @@
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-base</artifactId>
                 <version>${spring-boot-common-util-mail}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>common-util-dataSource</artifactId>
+                <version>${spring-boot-common-util-dataSource}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>common-util-mybatis</artifactId>
+                <version>${spring-boot-common-util-mybatis}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

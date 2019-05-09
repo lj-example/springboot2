@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.lj.spring.dataSource.support.SelfDruidMonitorConfiguration,\
+  com.lj.spring.dataSource.support.SelfDruidAutoConfiguration,\
+  com.lj.spring.dataSource.support.SelfMybatisAutoConfiguration
