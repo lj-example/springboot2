@@ -2,9 +2,6 @@ server:
   port: 8080
   servlet:
     context-path: /t
-
-
-
 spring:
     ### jackson配置
     jackson:
@@ -16,6 +13,8 @@ spring:
       date-format: yyyy-MM-dd HH:mm:ss
       time-zone: GMT+8
       default-property-inclusion: non_null
+    profiles:
+      active: dev
 
-
+debug: true
 

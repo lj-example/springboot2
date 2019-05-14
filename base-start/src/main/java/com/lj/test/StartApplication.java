@@ -1,14 +1,16 @@
-package com.lj.spring;
+package com.lj.test;
 
+import com.lj.spring.mybatis.common.DynamicMapperPackage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Repository;
+import org.springframework.context.annotation.ComponentScan;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@EnableAutoConfiguration
-@MapperScan(basePackages = "com.lj.spring.dao",annotationClass = Repository.class)
+@ComponentScan
+@EnableAutoConfiguration(excludeName = "xxxx")
+@MapperScan(basePackages = {"com.lj.test.dao",DynamicMapperPackage.DYNAMIC_PACKAGE_PATH})
 public class StartApplication{
 
     public static void main(String[] args) {

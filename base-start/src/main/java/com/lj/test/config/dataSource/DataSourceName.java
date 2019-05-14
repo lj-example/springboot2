@@ -1,4 +1,4 @@
-package com.lj.spring.config.dataSource;
+package com.lj.test.config.dataSource;
 
 /**
  * Created by lijun on 2019/5/8

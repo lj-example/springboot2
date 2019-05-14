@@ -1,4 +1,4 @@
-package com.lj.spring.config.dataSource;
+package com.lj.test.config.dataSource;
 
 import com.lj.spring.dataSource.core.dynamic.DynamicAspectTemplate;
 import org.aspectj.lang.annotation.Aspect;

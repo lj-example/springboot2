@@ -6,7 +6,6 @@ import com.lj.spring.dataSource.common.Prefix;
 import com.lj.spring.dataSource.config.MultiDruidProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 @ConditionalOnWebApplication
 @ConditionalOnProperty(name = SelfDruidMonitorConfiguration.NAME, havingValue = SelfDruidMonitorConfiguration.NAME_DEFAULT_VALUE)
 @EnableConfigurationProperties(MultiDruidProperties.class)
-@AutoConfigureAfter(MultiDruidProperties.class)
 public class SelfDruidMonitorConfiguration {
 
     /**

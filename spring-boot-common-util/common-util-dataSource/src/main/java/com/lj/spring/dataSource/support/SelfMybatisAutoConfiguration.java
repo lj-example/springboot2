@@ -1,15 +1,16 @@
 package com.lj.spring.dataSource.support;
 
 
+import com.lj.spring.dataSource.common.Common;
 import com.lj.spring.dataSource.common.Prefix;
 import com.lj.spring.dataSource.config.MultiDruidProperties;
+import com.lj.spring.dataSource.core.dynamic.DynamicCommon;
 import com.lj.spring.dataSource.core.dynamic.DynamicDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -35,7 +36,6 @@ import static com.lj.spring.dataSource.support.SelfMybatisAutoConfiguration.NAME
 @RequiredArgsConstructor
 @Configuration
 @EnableTransactionManagement
-@ConditionalOnBean(DataSource.class)
 @ConditionalOnProperty(name = NAME, havingValue = NAME_DEFAULT_VALUE)
 @EnableConfigurationProperties(MultiDruidProperties.class)
 @AutoConfigureAfter(value = {MultiDruidProperties.class, DataSource.class})
@@ -55,11 +55,11 @@ public class SelfMybatisAutoConfiguration {
     /**
      * 配置 sqlSessionFactory
      */
-    @Bean(name = "primarySqlSessionFactory")
-    @ConditionalOnBean(DataSource.class)
+    @Bean(name = Common.MYBATIS_SQL_SESSION_FACTORY_NAME)
+    @ConditionalOnBean(name = DynamicCommon.DYNAMIC_NAME)
     @Primary
     public SqlSessionFactory sqlSessionFactory(
-            @Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) throws Exception {
+            @Qualifier(DynamicCommon.DYNAMIC_NAME) DynamicDataSource dynamicDataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dynamicDataSource);
         //sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapper/*.xml"));
@@ -70,11 +70,11 @@ public class SelfMybatisAutoConfiguration {
     /**
      * 配置 SqlSessionTemplate
      */
-    @Bean(name = "primarySqlSessionTemplate")
-    @ConditionalOnBean(SqlSessionFactory.class)
+    @Bean(name = Common.MYBATIS_SQL_SESSION_TEMPLATE_NAME)
+    @ConditionalOnBean(name = Common.MYBATIS_SQL_SESSION_FACTORY_NAME)
     @Primary
     public SqlSessionTemplate sqlSessionTemplate(
-            @Qualifier("primarySqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+            @Qualifier(Common.MYBATIS_SQL_SESSION_FACTORY_NAME) SqlSessionFactory sqlSessionFactory) {
         log.info(">>>>> 初始化【SqlSessionTemplate】 完成");
         return new SqlSessionTemplate(sqlSessionFactory);
     }
@@ -82,11 +82,11 @@ public class SelfMybatisAutoConfiguration {
     /**
      * 配置事物管理器
      */
-    @Bean(name = "primaryDataSourceTransactionManager")
-    @ConditionalOnBean(DataSource.class)
+    @Bean(name = Common.MYBATIS_TRANSACTION_MANAGER_NAME)
+    @ConditionalOnBean(name = DynamicCommon.DYNAMIC_NAME)
     @Primary
     public DataSourceTransactionManager dataSourceTransactionManager(
-            @Autowired(required = false) @Qualifier("dynamicDataSource") DynamicDataSource dynamicDataSource) {
+            @Qualifier(DynamicCommon.DYNAMIC_NAME) DynamicDataSource dynamicDataSource) {
         log.info(">>>>> 初始化【DataSourceTransactionManager】 完成");
         return new DataSourceTransactionManager(dynamicDataSource);
     }

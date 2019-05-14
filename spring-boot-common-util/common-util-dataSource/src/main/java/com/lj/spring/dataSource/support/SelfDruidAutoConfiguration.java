@@ -1,6 +1,7 @@
 package com.lj.spring.dataSource.support;
 
 
+import com.lj.spring.dataSource.common.Common;
 import com.lj.spring.dataSource.common.Prefix;
 import com.lj.spring.dataSource.config.DruidDataSourceProperties;
 import com.lj.spring.dataSource.config.MultiDruidProperties;
@@ -9,7 +10,7 @@ import com.lj.spring.dataSource.model.MultiDataSources;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,10 +30,16 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.lj.spring.dataSource.support.SelfDruidAutoConfiguration.NAME;
+import static com.lj.spring.dataSource.support.SelfDruidAutoConfiguration.NAME_DEFAULT_VALUE;
+
 /**
  * Created by lijun on 2019/4/29
  */
 @Configuration
+@ConditionalOnProperty(name = NAME, havingValue = NAME_DEFAULT_VALUE)
+@EnableConfigurationProperties(MultiDruidProperties.class)
+@AutoConfigureAfter(SelfDruidMonitorConfiguration.class)
 public class SelfDruidAutoConfiguration {
 
     /**
@@ -48,15 +55,12 @@ public class SelfDruidAutoConfiguration {
     @Slf4j
     @RequiredArgsConstructor
     @Configuration
-    @ConditionalOnProperty(name = NAME, havingValue = NAME_DEFAULT_VALUE)
-    @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-    @EnableConfigurationProperties(MultiDruidProperties.class)
-    @AutoConfigureAfter(SelfDruidMonitorConfiguration.class)
+    @AutoConfigureBefore(DataSourceAutoConfiguration.class)
     protected static class DruidDataSourceConfiguration {
 
         private final MultiDruidProperties druidProperties;
 
-        @Bean
+        @Bean(name = Common.MASTER_DATA_SOURCE_NAME)
         @Primary
         public DataSource dataSource() throws SQLException {
             final DataSource dataSource = DruidDataSourceFactory.createDataSource(druidProperties);
@@ -67,14 +71,11 @@ public class SelfDruidAutoConfiguration {
 
     @RequiredArgsConstructor
     @Configuration
-    @ConditionalOnProperty(name = NAME, havingValue = NAME_DEFAULT_VALUE)
-    @EnableConfigurationProperties(MultiDruidProperties.class)
-    @AutoConfigureAfter(SelfDruidMonitorConfiguration.class)
     protected static class DruidMultiDataSourcesConfiguration {
 
         private final MultiDruidProperties multiDruidProperties;
 
-        @Bean
+        @Bean(name = Common.MULTI_DATA_SOURCE_NAME)
         public MultiDataSources dataSourcesRegister() {
             Map<String, DataSource> dataSourcesMap = new HashMap<>();
             if (multiDruidProperties == null
