@@ -6,6 +6,7 @@ import com.lj.spring.mybatis.mapper.BaseComponentMapper;
 import com.lj.spring.mybatis.model.BaseEntity;
 import com.lj.spring.mybatis.model.BaseStatusEnum;
 import com.lj.spring.mybatis.service.BaseDecoratorService;
+import com.lj.spring.mybatis.util.ReflectionKit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,14 +33,10 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
     @Autowired
     private BaseComponentMapper<T> baseComponentMapper;
 
-    private static int ERROR_RESULT_CODE = 5000000;
-    private static String RESULT_MESSAGE = "操作失败，异常数据ID=%s";
-
     private Class<T> clazz;
 
-    public BaseDecoratorServiceImpl(Class<T> clazz) {
-        this.clazz = clazz;
-    }
+    private static int ERROR_RESULT_CODE = 5000000;
+    private static String RESULT_MESSAGE = "操作失败，异常数据ID=%s";
 
     @Transactional
     @Override
@@ -53,7 +50,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         } else if (t.getId() > 0) {
             WeekendSqls<T> sql = WeekendSqls.custom();
             sql.andEqualTo(T::getId, t.getId());
-            Example example = Example.builder(this.clazz)
+            Example example = Example.builder(currentModelClass())
                     .andWhere(sql)
                     .build();
             buildUpdateInfo(t);
@@ -117,14 +114,12 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         return collect;
     }
 
-
     @Transactional
     @Override
     public int deleteByPrimaryKey(T t) {
         checkIllegalId(t.getId());
         return deleteByPrimaryKey(t.getId());
     }
-
 
     @Transactional
     @Override
@@ -134,18 +129,17 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         }
         WeekendSqls<T> sql = WeekendSqls.custom();
         sql.andEqualTo(T::getId, id);
-        Example example = Example.builder(clazz)
+        Example example = Example.builder(currentModelClass())
                 .where(sql)
                 .build();
         return deleteByExample(example);
     }
 
-
     @Transactional
     @Override
     public int deleteByExample(Example example) {
         try {
-            T deleteEntity = clazz.newInstance();
+            T deleteEntity = currentModelClass().newInstance();
             fixExample(example);
             deleteEntity.setStatus(BaseStatusEnum.DELETED.getCode());
             buildUpdateInfo(deleteEntity);
@@ -169,7 +163,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         WeekendSqls<T> sql = WeekendSqls.custom();
         sql.andIn(T::getId, primaryKeys);
 
-        Example example = Example.builder(this.clazz)
+        Example example = Example.builder(currentModelClass())
                 .where(sql)
                 .build();
         fixExample(example);
@@ -207,7 +201,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         if (t.getId() > 0) {
             WeekendSqls<T> sql = WeekendSqls.custom();
             sql.andEqualTo(T::getId, t.getId());
-            Example example = Example.builder(this.clazz)
+            Example example = Example.builder(currentModelClass())
                     .andWhere(sql)
                     .build();
             buildUpdateInfo(t);
@@ -275,4 +269,15 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
     public static <T extends BaseEntity> void buildUpdateInfo(T t) {
         t.setGmtModify(timestampInit());
     }
+
+    /**
+     * 获取当前泛型参数
+     */
+    protected Class<T> currentModelClass() {
+        if (null == clazz) {
+            clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+        }
+        return clazz;
+    }
+
 }

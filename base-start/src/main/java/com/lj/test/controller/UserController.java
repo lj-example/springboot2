@@ -28,11 +28,20 @@ public class UserController {
 
 
     @PostMapping
-    public Result test(@RequestParam String name, @RequestParam Integer age) {
+    public Result test(@RequestParam Long id,@RequestParam String name, @RequestParam Integer age) {
         final User user = new User();
         user.setName(name);
         user.setAge(age);
         userTestService.save(user);
+
+        final User user1 = new User();
+
+        user1.setName(name);
+        user1.setAge(age);
+
+        userTestService.save2(user1);
+        final List<User> users = userService.selectAll();
+        System.out.println(users.size());
         return ResultSuccess.defaultResultSuccess();
     }
 

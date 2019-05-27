@@ -13,7 +13,6 @@ import java.lang.annotation.*;
 @Inherited
 public @interface DataSourceType {
 
-
     /**
      * 使用的数据源
      */
