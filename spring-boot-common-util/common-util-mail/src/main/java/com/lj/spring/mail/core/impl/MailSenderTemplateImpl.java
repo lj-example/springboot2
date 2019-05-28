@@ -1,11 +1,11 @@
-package com.lj.spring.core.impl;
+package com.lj.spring.mail.core.impl;
 
-import com.lj.spring.config.MailProperties;
-import com.lj.spring.core.MailSenderTemplate;
-import com.lj.spring.model.AttachmentMailMessage;
-import com.lj.spring.model.AttachmentStreamMailMessage;
-import com.lj.spring.model.SimpleMailMessage;
-import com.lj.spring.model.TemplateSimpleMailMessage;
+import com.lj.spring.mail.config.MailProperties;
+import com.lj.spring.mail.core.MailSenderTemplate;
+import com.lj.spring.mail.model.AttachmentMailMessage;
+import com.lj.spring.mail.model.AttachmentStreamMailMessage;
+import com.lj.spring.mail.model.SimpleMailMessage;
+import com.lj.spring.mail.model.TemplateSimpleMailMessage;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.Cleanup;

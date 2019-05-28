@@ -1,9 +1,9 @@
-package com.lj.spring.core;
+package com.lj.spring.mail.core;
 
-import com.lj.spring.model.AttachmentMailMessage;
-import com.lj.spring.model.AttachmentStreamMailMessage;
-import com.lj.spring.model.SimpleMailMessage;
-import com.lj.spring.model.TemplateSimpleMailMessage;
+import com.lj.spring.mail.model.AttachmentMailMessage;
+import com.lj.spring.mail.model.AttachmentStreamMailMessage;
+import com.lj.spring.mail.model.SimpleMailMessage;
+import com.lj.spring.mail.model.TemplateSimpleMailMessage;
 
 /**
  * Created by lijun on 2019/4/9

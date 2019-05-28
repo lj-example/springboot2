@@ -1,4 +1,4 @@
-package com.lj.spring.config;
+package com.lj.spring.mail.config;
 
 import lombok.Data;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.lj.spring.support.JavaMailSendSupport
+  com.lj.spring.mail.support.JavaMailSendSupport

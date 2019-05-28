@@ -1,4 +1,4 @@
-package com.lj.spring.model;
+package com.lj.spring.mail.model;
 
 import lombok.Builder;
 import lombok.Data;

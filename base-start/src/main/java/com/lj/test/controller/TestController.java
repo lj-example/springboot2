@@ -2,8 +2,8 @@ package com.lj.test.controller;
 
 import com.google.common.collect.Lists;
 import com.lj.spring.common.exception.exceptionResolver.ResultCommon;
-import com.lj.spring.core.MailSenderTemplate;
-import com.lj.spring.model.AttachmentMailMessage;
+import com.lj.spring.mail.core.MailSenderTemplate;
+import com.lj.spring.mail.model.AttachmentMailMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

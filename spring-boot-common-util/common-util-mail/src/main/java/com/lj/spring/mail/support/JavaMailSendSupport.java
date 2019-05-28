@@ -1,8 +1,8 @@
-package com.lj.spring.support;
+package com.lj.spring.mail.support;
 
-import com.lj.spring.config.MailProperties;
-import com.lj.spring.core.MailSenderTemplate;
-import com.lj.spring.core.impl.MailSenderTemplateImpl;
+import com.lj.spring.mail.config.MailProperties;
+import com.lj.spring.mail.core.impl.MailSenderTemplateImpl;
+import com.lj.spring.mail.core.MailSenderTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
