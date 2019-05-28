@@ -34,10 +34,13 @@ public class ResponseAdvice implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(Object result, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        if (Objects.nonNull(result) || result instanceof Result || result instanceof Throwable) {
+        if (Objects.isNull(result) || result instanceof Result || result instanceof Throwable) {
             return result;
         }
         ResultSuccess resultSuccess = ResultSuccess.buildResult(result);
+        if (result instanceof CharSequence) {
+            return resultSuccess.toString();
+        }
         return resultSuccess;
     }
 }

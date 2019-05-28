@@ -1,6 +1,7 @@
 package com.lj.spring.common.exception.exceptionResolver;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 
@@ -15,7 +16,7 @@ public class DefaultRuntimeExceptionResolver implements ExceptionResolver, Order
 
     @Override
     public void resolve(HttpServletRequest request, Exception exception) {
-        log.info("exception = {}", exception.getMessage());
+        log.info("exception = {}", ExceptionUtils.getStackTrace(exception));
     }
 
     @Override

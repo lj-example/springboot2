@@ -2,6 +2,7 @@ server:
   port: 8080
   servlet:
     context-path: /t
+
 spring:
     ### jackson配置
     jackson:
@@ -15,6 +16,8 @@ spring:
       default-property-inclusion: non_null
     profiles:
       active: dev
+    application:
+      name: base-start
 
 debug: true
 

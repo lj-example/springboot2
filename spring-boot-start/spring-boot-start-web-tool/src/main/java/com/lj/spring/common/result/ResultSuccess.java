@@ -44,4 +44,8 @@ public final class ResultSuccess extends Result {
                 .message(SUCCESS_MESSAGE)
                 .build();
     }
+
+    public String toString() {
+        return super.toString();
+    }
 }

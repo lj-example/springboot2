@@ -72,4 +72,9 @@ public class ResultFail extends Result {
     public static String getFailMessage() {
         return FAIL_MESSAGE;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
