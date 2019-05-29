@@ -56,6 +56,12 @@
             <groupId>com.lj.springBoot</groupId>
             <artifactId>common-util-mybatis</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
+            <artifactId>common-util-redis</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
