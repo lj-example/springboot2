@@ -11,5 +11,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ExceptionResultHandler {
 
+    /**
+     * exception 后置处理器
+     */
     Result handle(HttpServletRequest request, HandlerMethod handlerMethod, Exception exception, HttpStatus httpStatus, Result result);
 }

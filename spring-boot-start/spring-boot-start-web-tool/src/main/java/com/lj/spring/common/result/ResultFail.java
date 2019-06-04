@@ -33,7 +33,7 @@ public class ResultFail extends Result {
                 .build();
     }
 
-    public static ResultFail buildResult(Integer code) {
+    public static ResultFail of(Integer code) {
         return ResultFail.builder()
                 .code(code)
                 .data(null)
@@ -41,7 +41,7 @@ public class ResultFail extends Result {
                 .build();
     }
 
-    public static ResultFail buildResult(String message) {
+    public static ResultFail of(String message) {
         return ResultFail.builder()
                 .code(FAIL_CODE)
                 .data(null)
@@ -49,7 +49,7 @@ public class ResultFail extends Result {
                 .build();
     }
 
-    public static ResultFail buildResult(Integer code, String message) {
+    public static ResultFail of(Integer code, String message) {
         return ResultFail.builder()
                 .code(code)
                 .data(null)

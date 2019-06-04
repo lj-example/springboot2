@@ -37,7 +37,7 @@ public class ResponseAdvice implements ResponseBodyAdvice {
         if (Objects.isNull(result) || result instanceof Result || result instanceof Throwable) {
             return result;
         }
-        ResultSuccess resultSuccess = ResultSuccess.buildResult(result);
+        ResultSuccess resultSuccess = ResultSuccess.of(result);
         if (result instanceof CharSequence) {
             return resultSuccess.toString();
         }

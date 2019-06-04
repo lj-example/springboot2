@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.lj.spring.common.web.ResponseAdvice,\
   com.lj.spring.common.web.ExceptionAdvice,\
-  com.lj.spring.common.exception.exceptionResolver.DefaultExceptionResolverConfig
+  com.lj.spring.common.json.JacksonConfigure
+

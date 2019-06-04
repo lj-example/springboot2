@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 异常收集-处理器 该实现不会对最终的异常处理有影响
  * Created by lijun on 2019/4/8
  */
 public interface ExceptionResolver {

@@ -32,12 +32,17 @@ public class DefaultExceptionResultHandler implements ExceptionResultHandler {
             MediaType mediaType = getProduceType(request, handlerMethod);
             if (DEFAULT_MEDIA_TYPE.equalsTypeAndSubtype(mediaType)) {
                 //只处理 json 格式
-                return ResultException.create(result.getCode(), result.getMessage(), result.getData(), ExceptionUtils.getStackTrace(exception));
+                return ResultException.create(result.getCode(), result.getMessage(),
+                        result.getData(),
+                        ExceptionUtils.getStackTrace(exception));
             }
         }
         return result;
     }
 
+    /**
+     * 获取请求类型
+     */
     public MediaType getProduceType(HttpServletRequest request, HandlerMethod handlerMethod) {
         String accept = request.getHeader(HttpHeaders.ACCEPT);
         if (accept != null) {

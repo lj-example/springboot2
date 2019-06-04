@@ -2,19 +2,22 @@ package com.lj.spring.common.web;
 
 
 import com.lj.spring.common.exception.BizException;
-import com.lj.spring.common.exception.exceptionResolver.ExceptionResolver;
-import com.lj.spring.common.result.Result;
 import com.lj.spring.common.exception.exceptionHandler.ExceptionResultHandler;
+import com.lj.spring.common.exception.exceptionResolver.DefaultExceptionResolverConfig;
+import com.lj.spring.common.exception.exceptionResolver.DefaultRuntimeExceptionResolver;
+import com.lj.spring.common.exception.exceptionResolver.ExceptionResolver;
 import com.lj.spring.common.exception.exceptionResolver.ResultCommon;
+import com.lj.spring.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -35,8 +38,9 @@ import java.util.List;
  * Created by lijun on 2019/4/8
  */
 @RestControllerAdvice
-@Component
+@Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE - 100)
+@Import({DefaultExceptionResolverConfig.class, DefaultRuntimeExceptionResolver.class})
 @Slf4j
 public class ExceptionAdvice implements InitializingBean {
 

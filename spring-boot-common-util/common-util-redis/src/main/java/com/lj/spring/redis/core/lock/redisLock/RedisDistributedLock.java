@@ -1,7 +1,6 @@
 package com.lj.spring.redis.core.lock.redisLock;
 
 import com.lj.spring.redis.core.lock.AbstractDistributedLock;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands;
@@ -10,18 +9,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by lijun on 2019/5/29
  */
 @Slf4j
-@RequiredArgsConstructor
 public class RedisDistributedLock extends AbstractDistributedLock {
 
     private final RedisTemplate redisTemplate;
+    private final Set<String> lockKeySet = new HashSet<>();
 
     @Override
     public boolean lock(String key, long timeoutMillis, int retryTimes, long sleepMillis) {
@@ -36,6 +34,7 @@ public class RedisDistributedLock extends AbstractDistributedLock {
             }
         }
         if (redisSetLockResult) {
+            lockKeySet.add(key);
             LockValueHandler.set(lockValue);
         }
         return redisSetLockResult;
@@ -56,6 +55,7 @@ public class RedisDistributedLock extends AbstractDistributedLock {
         ));
         boolean unLockResult = LuaScript.unLockResult(result);
         if (unLockResult) {
+            lockKeySet.remove(key);
             LockValueHandler.clean();
         }
         return unLockResult;
@@ -78,5 +78,17 @@ public class RedisDistributedLock extends AbstractDistributedLock {
                         RedisStringCommands.SetOption.SET_IF_ABSENT)
         );
         return Objects.nonNull(execute) && (Boolean) execute;
+    }
+
+    //清理未关闭的锁
+    public RedisDistributedLock(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            //清理未关闭的锁 - 避免服务重启导致锁无法被释放
+            if (this.lockKeySet.size() > 0) {
+                log.info("清理未被关闭【redis】的锁");
+                redisTemplate.delete(lockKeySet);
+            }
+        }));
     }
 }

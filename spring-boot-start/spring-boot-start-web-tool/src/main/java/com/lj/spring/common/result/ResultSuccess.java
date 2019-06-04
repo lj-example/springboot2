@@ -29,7 +29,7 @@ public final class ResultSuccess extends Result {
     /**
      * 正常响应构建
      */
-    public static ResultSuccess buildResult(Object result) {
+    public static ResultSuccess of(Object result) {
         return ResultSuccess.builder()
                 .code(SUCCESS_CODE)
                 .data(result)
