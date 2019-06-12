@@ -30,16 +30,24 @@ public class BaseEntity extends BaseEntityOnlyId implements Serializable {
     /**
      * 创建时间
      */
-    private Timestamp gmtCreate;
+    private Timestamp createTime;
 
     /**
      * 修改者
      */
-    private Long modifierId;
+    private Long modifyId;
 
     /**
      * 修改时间
      */
-    private Timestamp gmtModify;
+    private Timestamp modifyTime;
 
+    public BaseEntity(Long id, Integer status, Long creatorId, Timestamp createTime, Long modifyId, Timestamp modifyTime) {
+        super(id);
+        this.status = status;
+        this.creatorId = creatorId;
+        this.createTime = createTime;
+        this.modifyId = modifyId;
+        this.modifyTime = modifyTime;
+    }
 }

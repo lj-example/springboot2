@@ -2,11 +2,13 @@ package com.lj.spring.common.result;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Created by lijun on 2019/3/26
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public final class ResultSuccess extends Result {
 
     /**

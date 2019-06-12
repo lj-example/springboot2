@@ -255,7 +255,8 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
      * 新增 时 数据补充
      */
     public static <T extends BaseEntity> void buildInsertInfo(T t) {
-        t.setGmtCreate(timestampInit());
+        t.setCreateTime(timestampInit());
+        t.setModifyTime(timestampInit());
         t.setStatus(BaseStatusEnum.NORMAL.getCode());
     }
 
@@ -263,7 +264,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
      * 修改时候 数据补充
      */
     public static <T extends BaseEntity> void buildUpdateInfo(T t) {
-        t.setGmtModify(timestampInit());
+        t.setModifyTime(timestampInit());
     }
 
     /**
