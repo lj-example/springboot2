@@ -46,4 +46,4 @@ log/
 .vscode/
 
 /rebel.xml
-
+/base-start/src/main/resources/application-dev.yml
