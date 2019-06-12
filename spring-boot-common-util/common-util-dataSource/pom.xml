@@ -17,7 +17,6 @@
         <com.alibaba.druid>1.1.0</com.alibaba.druid>
         <mybatis.version>3.4.6</mybatis.version>
         <tk.mybatis.mapper.starter>2.0.2</tk.mybatis.mapper.starter>
-        <com.github.pagehelper.starter>1.2.5</com.github.pagehelper.starter>
     </properties>
 
     <dependencies>

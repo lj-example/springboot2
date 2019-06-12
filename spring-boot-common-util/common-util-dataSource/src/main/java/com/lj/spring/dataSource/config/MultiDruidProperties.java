@@ -2,6 +2,7 @@ package com.lj.spring.dataSource.config;
 
 import com.lj.spring.dataSource.common.Prefix;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.HashMap;
  * Created by lijun on 2019/4/29
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = Prefix.DATA_SOURCE_PROPERTIES)
 public class MultiDruidProperties extends DruidDataSourceProperties {
 

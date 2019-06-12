@@ -30,4 +30,5 @@ public interface MailSenderTemplate {
      * 发送带有附件的邮件，附件为文件流的形式
      */
     void sendAttachmentStreamMail(AttachmentStreamMailMessage attachmentStreamMailMessage);
+
 }

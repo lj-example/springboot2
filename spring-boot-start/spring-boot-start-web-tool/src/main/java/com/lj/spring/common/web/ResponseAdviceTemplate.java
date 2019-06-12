@@ -11,17 +11,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by lijun on 2019/3/26
  */
-@ControllerAdvice
-@Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
-public class ResponseAdvice implements ResponseBodyAdvice {
+public abstract class ResponseAdviceTemplate implements ResponseBodyAdvice, Ordered {
 
     /**
      * 增强器前置条件
@@ -29,7 +30,8 @@ public class ResponseAdvice implements ResponseBodyAdvice {
      */
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
-        return true;
+        String name = methodParameter.getMethod().getDeclaringClass().getName();
+        return supportPath().stream().anyMatch((path) -> name.startsWith(path));
     }
 
     @Override
@@ -43,4 +45,11 @@ public class ResponseAdvice implements ResponseBodyAdvice {
         }
         return resultSuccess;
     }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
+    }
+
+    public abstract List<String> supportPath();
 }

@@ -48,37 +48,31 @@ public class BaseServiceImpl<T extends BaseEntityOnlyId> implements BaseService<
         return 0;
     }
 
-    @Transactional
     @Override
     public T selectByPrimaryKey(Object o) {
         return baseMapper.selectByPrimaryKey(o);
     }
 
-    @Transactional
     @Override
     public List<T> selectByExample(Example example) {
         return baseMapper.selectByExample(example);
     }
 
-    @Transactional
     @Override
     public T selectOne(T t) {
         return baseMapper.selectOne(t);
     }
 
-    @Transactional
     @Override
     public int selectCount(T t) {
         return baseMapper.selectCount(t);
     }
 
-    @Transactional
     @Override
     public List<T> selectAll() {
         return baseMapper.selectAll();
     }
 
-    @Transactional
     @Override
     public int selectCountByExample(Example example) {
         return baseMapper.selectCountByExample(example);

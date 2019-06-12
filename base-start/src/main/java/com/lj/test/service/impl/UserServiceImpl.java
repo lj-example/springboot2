@@ -7,20 +7,15 @@ import com.lj.test.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * Created by lijun on 2019/4/30
  */
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl extends BaseServiceImpl<User> implements UserService  {
+public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
-    final UserMapper userMapper;
+//    final UserMapper userMapper;
 
-    @Override
-    public List<User> selectAll() {
-       return super.selectAll();
-    }
+
 
 }

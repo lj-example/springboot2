@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * Created by lijun on 2019/4/30
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseEntityOnlyId {
+
 
     private String name;
 

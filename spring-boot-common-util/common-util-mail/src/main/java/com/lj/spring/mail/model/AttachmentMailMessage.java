@@ -2,6 +2,7 @@ package com.lj.spring.mail.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * Created by lijun on 2019/4/22
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class AttachmentMailMessage extends SimpleMailMessage {
 
     /**

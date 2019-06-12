@@ -19,6 +19,7 @@ import tk.mybatis.mapper.weekend.WeekendSqls;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -61,7 +62,6 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         return 0;
     }
 
-    @Transactional
     @Override
     public T selectByPrimaryKey(Object key) {
         checkIllegalId(key);
@@ -76,39 +76,35 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         return null;
     }
 
-    @Transactional
     @Override
     public T selectOne(T t) {
         t.setStatus(BaseStatusEnum.NORMAL.getCode());
         return baseMapper.selectOne(t);
     }
 
-    @Transactional
     @Override
     public int selectCount(T t) {
         t.setStatus(BaseStatusEnum.NORMAL.getCode());
         return baseMapper.selectCount(t);
     }
 
-    @Transactional
     @Override
     public List<T> selectByExample(Example example) {
         fixExample(example);
         return baseMapper.selectByExample(example);
     }
 
-    @Transactional
     @Override
     public int selectCountByExample(Example example) {
         fixExample(example);
         return baseMapper.selectCountByExample(example);
     }
 
-    @Transactional
     @Override
     public List<T> selectAll() {
         List<T> list = baseMapper.selectAll();
         List<T> collect = list.parallelStream()
+                .filter(data -> Objects.nonNull(data.getStatus()))
                 .filter(data -> BaseStatusEnum.isNormal(data.getStatus()))
                 .collect(Collectors.toList());
         return collect;

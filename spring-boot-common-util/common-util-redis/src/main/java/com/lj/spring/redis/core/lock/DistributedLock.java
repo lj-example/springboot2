@@ -13,7 +13,7 @@ public interface DistributedLock {
     /**
      * 重试次数
      */
-    public int RETRY_TIMES = Integer.MAX_VALUE;
+    int RETRY_TIMES = Integer.MAX_VALUE;
 
     /**
      * 重试间隔(毫秒) 1s = 1000 Mills

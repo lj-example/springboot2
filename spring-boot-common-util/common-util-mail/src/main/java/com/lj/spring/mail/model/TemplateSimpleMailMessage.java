@@ -1,6 +1,7 @@
 package com.lj.spring.mail.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashMap;
 
@@ -8,6 +9,7 @@ import java.util.HashMap;
  * Created by lijun on 2019/4/10
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class TemplateSimpleMailMessage extends SimpleMailMessage {
 
     /**

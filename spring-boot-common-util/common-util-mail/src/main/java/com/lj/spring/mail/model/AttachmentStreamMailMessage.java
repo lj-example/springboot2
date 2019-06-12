@@ -2,6 +2,7 @@ package com.lj.spring.mail.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.core.io.InputStreamSource;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * Created by lijun on 2019/4/24
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class AttachmentStreamMailMessage extends SimpleMailMessage {
 
     /**

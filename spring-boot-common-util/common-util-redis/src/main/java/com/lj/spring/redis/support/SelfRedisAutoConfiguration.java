@@ -58,6 +58,9 @@ public class SelfRedisAutoConfiguration {
         return serializer;
     }
 
+    /**
+     * StringRedisTemplate
+     */
     @Bean(name = Common.STRING_REDIS_TEMPLATE_NAME)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory,
                                                    StringRedisKeySerializer stringRedisKeySerializer,
@@ -71,6 +74,9 @@ public class SelfRedisAutoConfiguration {
         return stringRedisTemplate;
     }
 
+    /**
+     * 默认 redisTemplate
+     */
     @Bean(name = Common.REDIS_TEMPLATE_NAME)
     public RedisTemplate redisTemplate(
             RedisConnectionFactory redisConnectionFactory,
