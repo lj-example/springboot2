@@ -1,16 +1,13 @@
 package com.lj.spring.mybatis.service.impl;
 
 
-import com.lj.spring.mybatis.exception.HelperException;
 import com.lj.spring.mybatis.mapper.BaseComponentMapper;
 import com.lj.spring.mybatis.model.BaseEntity;
 import com.lj.spring.mybatis.model.BaseStatusEnum;
 import com.lj.spring.mybatis.service.BaseDecoratorService;
-import com.lj.spring.mybatis.util.ReflectionKit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
@@ -26,7 +23,7 @@ import java.util.stream.Collectors;
  * Created by lijun on 2019/5/8
  */
 @Slf4j
-public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecoratorService<T> {
+public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServiceImpl<T> implements BaseDecoratorService<T> {
 
     @Autowired
     private Mapper<T> baseMapper;
@@ -34,32 +31,14 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
     @Autowired
     private BaseComponentMapper<T> baseComponentMapper;
 
-    private Class<T> clazz;
-
-    private static int ERROR_RESULT_CODE = 5000000;
-    private static String RESULT_MESSAGE = "操作失败，异常数据ID=%s";
-
-    @Transactional
     @Override
-    public Integer save(T t) {
-        if (null == t) {
-            return 0;
-        }
-        if (null == t.getId()) {
-            buildInsertInfo(t);
-            return baseMapper.insertSelective(t);
-        } else if (t.getId() > 0) {
-            WeekendSqls<T> sql = WeekendSqls.custom();
-            sql.andEqualTo(T::getId, t.getId());
-            Example example = Example.builder(currentModelClass())
-                    .andWhere(sql)
-                    .build();
-            buildUpdateInfo(t);
-            return updateByExampleSelective(t, example);
-        }
-        log.info("操作失败,异常数据信息 = {}", t);
-        throwBizException(t.getId());
-        return 0;
+    Mapper<T> baseMapper() {
+        return baseMapper;
+    }
+
+    @Override
+    BaseComponentMapper<T> baseComponentMapper() {
+        return baseComponentMapper;
     }
 
     @Override
@@ -108,13 +87,6 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
                 .filter(data -> BaseStatusEnum.isNormal(data.getStatus()))
                 .collect(Collectors.toList());
         return collect;
-    }
-
-    @Transactional
-    @Override
-    public int deleteByPrimaryKey(T t) {
-        checkIllegalId(t.getId());
-        return deleteByPrimaryKey(t.getId());
     }
 
     @Transactional
@@ -168,48 +140,6 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
 
     @Transactional
     @Override
-    public int insert(T t) {
-        buildInsertInfo(t);
-        return baseMapper.insertSelective(t);
-    }
-
-    @Transactional
-    @Override
-    public int insertAll(List<T> list) {
-        if (null == list || list.size() == 0) {
-            return 0;
-        }
-        List<T> collect = list.stream()
-                .map(data -> {
-                    buildInsertInfo(data);
-                    return data;
-                })
-                .collect(Collectors.toList());
-        return baseComponentMapper.insertAll(collect);
-    }
-
-
-    @Transactional
-    public int updateByPrimaryKey(T t) {
-        if (null == t) {
-            return 0;
-        }
-        if (t.getId() > 0) {
-            WeekendSqls<T> sql = WeekendSqls.custom();
-            sql.andEqualTo(T::getId, t.getId());
-            Example example = Example.builder(currentModelClass())
-                    .andWhere(sql)
-                    .build();
-            buildUpdateInfo(t);
-            return updateByExample(t, example);
-        }
-        log.info("操作失败,异常数据信息 = {}", t);
-        throwBizException(t.getId());
-        return 0;
-    }
-
-    @Transactional
-    @Override
     public int updateByExample(T t, Example example) {
         fixExample(example);
         buildUpdateInfo(t);
@@ -224,57 +154,20 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> implements BaseDecor
         return baseMapper.updateByExampleSelective(t, example);
     }
 
-    public static void throwBizException(String message) {
-        throw new HelperException(ERROR_RESULT_CODE, message);
-    }
-
-    public static void throwBizException(Long id) {
-        throw new HelperException(ERROR_RESULT_CODE, String.format(RESULT_MESSAGE, id));
-    }
-
-    /**
-     * 判断ID 是否非法
-     *
-     * @return 非法 直接抛出异常信息
-     */
-    private static void checkIllegalId(Object id) {
-        Assert.isTrue(null != id && id instanceof Long && (Long) id > 0, String.format(RESULT_MESSAGE, id));
-    }
-
     private static void fixExample(Example example) {
         example.and().andEqualTo("status", BaseStatusEnum.NORMAL.getCode());
         example.setOrderByClause(StringUtils.isEmpty(example.getOrderByClause()) ?
                 "id DESC" : example.getOrderByClause() + ",id DESC");
     }
 
-    private static Timestamp timestampInit() {
+    protected static Timestamp timestampInit() {
         return new Timestamp(System.currentTimeMillis());
     }
 
-    /**
-     * 新增 时 数据补充
-     */
-    public static <T extends BaseEntity> void buildInsertInfo(T t) {
+    @Override
+    public void buildInsertInfo(T t) {
         t.setCreateTime(timestampInit());
-        t.setModifyTime(timestampInit());
         t.setStatus(BaseStatusEnum.NORMAL.getCode());
-    }
-
-    /**
-     * 修改时候 数据补充
-     */
-    public static <T extends BaseEntity> void buildUpdateInfo(T t) {
         t.setModifyTime(timestampInit());
     }
-
-    /**
-     * 获取当前泛型参数
-     */
-    protected Class<T> currentModelClass() {
-        if (null == clazz) {
-            clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
-        }
-        return clazz;
-    }
-
 }

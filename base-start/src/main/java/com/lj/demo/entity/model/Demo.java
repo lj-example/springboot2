@@ -29,8 +29,8 @@ public class Demo extends BaseEntity {
     private Integer demoNum;
 
     @Builder
-    public Demo(Long id, Integer status, Long creatorId, Timestamp createTime, Long modifyId, Timestamp modifyTime, String name, Integer demoNum) {
-        super(id, status, creatorId, createTime, modifyId, modifyTime);
+    public Demo(Long id, Timestamp modifyTime, Timestamp createTime, Integer status, Long creatorId, Long modifyId, String name, Integer demoNum) {
+        super(id, modifyTime, createTime, status, creatorId, modifyId);
         this.name = name;
         this.demoNum = demoNum;
     }

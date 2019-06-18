@@ -1,9 +1,7 @@
 package com.lj.spring.mybatis.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -12,8 +10,6 @@ import java.sql.Timestamp;
  * Created by lijun on 2019/5/8
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class BaseEntity extends BaseEntityOnlyId implements Serializable {
 
@@ -28,26 +24,14 @@ public class BaseEntity extends BaseEntityOnlyId implements Serializable {
     private Long creatorId;
 
     /**
-     * 创建时间
-     */
-    private Timestamp createTime;
-
-    /**
      * 修改者
      */
     private Long modifyId;
 
-    /**
-     * 修改时间
-     */
-    private Timestamp modifyTime;
-
-    public BaseEntity(Long id, Integer status, Long creatorId, Timestamp createTime, Long modifyId, Timestamp modifyTime) {
-        super(id);
+    public BaseEntity(Long id, Timestamp modifyTime, Timestamp createTime, Integer status, Long creatorId, Long modifyId) {
+        super(id, modifyTime, createTime);
         this.status = status;
         this.creatorId = creatorId;
-        this.createTime = createTime;
         this.modifyId = modifyId;
-        this.modifyTime = modifyTime;
     }
 }
