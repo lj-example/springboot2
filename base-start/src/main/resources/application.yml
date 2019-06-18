@@ -11,3 +11,11 @@ spring:
 
 debug: true
 
+
+
+logging:
+  config: "classpath:config/log4j2-${spring.profiles.active}.xml"
+
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
