@@ -2,6 +2,7 @@ package com.lj.spring.dataSource.core;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.lj.spring.dataSource.config.DruidDataSourceProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -22,6 +23,8 @@ public class DruidDataSourceFactory {
         dataSource.setUsername(druidProperties.getUsername());
         dataSource.setPassword(druidProperties.getPassword());
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setDbType("com.alibaba.druid.pool.DruidDataSource");
+
         if (druidProperties.getInitialSize() != null) {
             dataSource.setInitialSize(druidProperties.getInitialSize());
         }

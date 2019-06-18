@@ -79,7 +79,7 @@ public class DruidDataSourceProperties {
      * ----------------
      **/
     private boolean testWhileIdle = true;
-    private boolean testOnBorrow = false;
+    private boolean testOnBorrow = true;
     private boolean testOnReturn = false;
 
     /**

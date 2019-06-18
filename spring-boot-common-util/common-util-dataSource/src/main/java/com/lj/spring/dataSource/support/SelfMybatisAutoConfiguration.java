@@ -1,6 +1,7 @@
 package com.lj.spring.dataSource.support;
 
 
+import com.github.pagehelper.PageInterceptor;
 import com.lj.spring.dataSource.common.Common;
 import com.lj.spring.dataSource.common.Prefix;
 import com.lj.spring.dataSource.config.MultiDruidProperties;
@@ -8,6 +9,7 @@ import com.lj.spring.dataSource.core.dynamic.DynamicCommon;
 import com.lj.spring.dataSource.core.dynamic.DynamicDataSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -24,6 +26,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+
+import java.util.Properties;
 
 import static com.lj.spring.dataSource.support.SelfMybatisAutoConfiguration.NAME;
 import static com.lj.spring.dataSource.support.SelfMybatisAutoConfiguration.NAME_DEFAULT_VALUE;
@@ -63,6 +67,8 @@ public class SelfMybatisAutoConfiguration {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dynamicDataSource);
         //sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapper/*.xml"));
+        //添加分页组件
+        sqlSessionFactory.setPlugins(new Interceptor[]{pageInterceptor()});
         log.info(">>>>> 初始化【SqlSessionFactory】 完成");
         return sqlSessionFactory.getObject();
     }
@@ -91,4 +97,22 @@ public class SelfMybatisAutoConfiguration {
         return new DataSourceTransactionManager(dynamicDataSource);
     }
 
+    /**
+     * 注册 pageHelper 分页组件
+     */
+    private static PageInterceptor pageInterceptor() {
+        //分页插件
+        PageInterceptor pageInterceptor = new PageInterceptor();
+        Properties properties = new Properties();
+        //数据库
+        properties.setProperty("helperDialect", "mysql");
+        //是否将参数offset作为PageNum使用
+        properties.setProperty("offsetAsPageNum", "true");
+        //是否进行count查询
+        properties.setProperty("rowBoundsWithCount", "true");
+        //是否分页合理化
+        properties.setProperty("reasonable", "false");
+        pageInterceptor.setProperties(properties);
+        return pageInterceptor;
+    }
 }
