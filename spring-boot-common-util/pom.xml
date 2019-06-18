@@ -21,6 +21,7 @@
         <module>common-util-dataSource</module>
         <module>common-util-mybatis</module>
         <module>common-util-redis</module>
+        <module>common-util-i18n</module>
     </modules>
 
 </project>

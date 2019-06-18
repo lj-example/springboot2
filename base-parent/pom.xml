@@ -58,6 +58,8 @@
         <spring-boot-common-util-dataSource>1.0-SNAPSHOT</spring-boot-common-util-dataSource>
         <spring-boot-common-util-mybatis>1.0-SNAPSHOT</spring-boot-common-util-mybatis>
         <spring-boot-common-util-redis>1.0-SNAPSHOT</spring-boot-common-util-redis>
+        <spring-boot-common-util-i18n>1.0-SNAPSHOT</spring-boot-common-util-i18n>
+
     </properties>
 
     <dependencyManagement>
@@ -154,6 +156,12 @@
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-redis</artifactId>
                 <version>${spring-boot-common-util-redis}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>common-util-i18n</artifactId>
+                <version>${spring-boot-common-util-i18n}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -10,13 +10,22 @@ import com.lj.demo.entity.model.Demo;
 import com.lj.demo.service.DemoService;
 import com.lj.spring.common.result.Result;
 import com.lj.spring.common.result.ResultSuccess;
+import com.lj.spring.i18n.core.util.dbUtil.I18nDBUtil;
+import com.lj.spring.i18n.core.util.dbUtil.I18nFormatValue;
+import com.lj.spring.i18n.core.util.enumUtil.I18nEnumInterface;
+import com.lj.spring.i18n.core.util.sourceUtil.I18nSourceUtil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.WeekendSqls;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 代码示例
@@ -29,6 +38,7 @@ import java.util.List;
 public class DemoController implements DemoApi {
 
     private final DemoService demoService;
+    private final MessageSource messageSource;
 
     /**
      * 查询所有
@@ -98,5 +108,56 @@ public class DemoController implements DemoApi {
     public List<Demo> selectFromWriteDataSource(String name) {
         return demoService.selectFromWriteDataSource(name);
     }
+
+    /**
+     * 获取语言信息
+     */
+    @GetMapping("message")
+    public String message() {
+        return I18nSourceUtil.INSTANCE.getMessage("username");
+    }
+
+    /**
+     * 枚举工具类测试
+     */
+    @GetMapping("testEnumUtil")
+    public List<HashMap<String, Object>> testEnumUtil() {
+        System.out.println(TestI18nEnum.USER.getI8nMessage());
+        return I18nEnumInterface.as18nList(TestI18nEnum.class);
+    }
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("testDBI18nUtil")
+    public String testDBI18nUtil() {
+        I18nFormatValue messageChina = I18nFormatValue.of(Locale.CHINA, "信息");
+        I18nFormatValue messageUS = I18nFormatValue.of(Locale.US, "message");
+        String format = I18nDBUtil.INSTANCE.format(messageChina, messageUS);
+        return I18nDBUtil.INSTANCE.getI18nValue(format);
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public enum TestI18nEnum implements I18nEnumInterface {
+        USER("username"),
+        USER1("username");
+
+        private String name;
+
+        @Override
+        public String getI18nCode() {
+            return name;
+        }
+
+        @Override
+        public String getI18nKey() {
+            return name;
+        }
+
+
+    }
+
 }
 

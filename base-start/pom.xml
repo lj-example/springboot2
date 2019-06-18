@@ -66,6 +66,12 @@
             <groupId>com.lj.springBoot</groupId>
             <artifactId>common-util-redis</artifactId>
         </dependency>
+
+        <!-- i18n -->
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
+            <artifactId>common-util-i18n</artifactId>
+        </dependency>
         <!-- ########################## 自定义组件 结束 ##############################-->
     </dependencies>
 
