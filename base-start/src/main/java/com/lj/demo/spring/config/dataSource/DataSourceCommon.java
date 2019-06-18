@@ -1,9 +1,15 @@
 package com.lj.demo.spring.config.dataSource;
 
+import com.lj.spring.mybatis.common.DynamicMapperPackage;
+import org.springframework.context.annotation.Configuration;
+import tk.mybatis.spring.annotation.MapperScan;
+
 /**
  * Created by lijun on 2019/6/4
  */
-public final class DataSourceCommon {
+@Configuration
+@MapperScan(basePackages = {DataSourceCommon.MAPPER_PATH, DynamicMapperPackage.DYNAMIC_PACKAGE_PATH})
+public class DataSourceCommon {
 
     /**
      * 定义Mapper路径

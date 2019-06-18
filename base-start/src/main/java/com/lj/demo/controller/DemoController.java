@@ -10,6 +10,7 @@ import com.lj.demo.entity.model.Demo;
 import com.lj.demo.service.DemoService;
 import com.lj.spring.common.result.Result;
 import com.lj.spring.common.result.ResultSuccess;
+import com.lj.spring.i18n.core.I18nHandler.I18nFolderName;
 import com.lj.spring.i18n.core.util.dbUtil.I18nDBUtil;
 import com.lj.spring.i18n.core.util.dbUtil.I18nFormatValue;
 import com.lj.spring.i18n.core.util.enumUtil.I18nEnumInterface;
@@ -35,6 +36,7 @@ import java.util.Locale;
 @RestController
 @RequestMapping("_demo")
 @RequiredArgsConstructor
+@I18nFolderName("user")
 public class DemoController implements DemoApi {
 
     private final DemoService demoService;
@@ -155,7 +157,6 @@ public class DemoController implements DemoApi {
         public String getI18nKey() {
             return name;
         }
-
 
     }
 
