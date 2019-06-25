@@ -41,7 +41,6 @@ import static com.lj.spring.dataSource.support.SelfDruidAutoConfiguration.NAME_D
 @EnableConfigurationProperties(MultiDruidProperties.class)
 @AutoConfigureAfter(SelfDruidMonitorConfiguration.class)
 public class SelfDruidAutoConfiguration {
-
     /**
      * 默认开启该配置对应的名称
      */
@@ -84,11 +83,10 @@ public class SelfDruidAutoConfiguration {
                 return new MultiDataSources(dataSourcesMap);
             }
             Map<String, DruidDataSourceProperties> dataSources = multiDruidProperties.getDynamicDataSource();
-            dataSources.entrySet().stream().forEach(entry -> {
-                final DruidDataSourceProperties entryValue = entry.getValue();
-                combine(multiDruidProperties, entryValue, false);
+            dataSources.forEach((key, value) -> {
+                combine(multiDruidProperties, value);
                 try {
-                    dataSourcesMap.put(entry.getKey(), DruidDataSourceFactory.createDataSource(entryValue));
+                    dataSourcesMap.put(key, DruidDataSourceFactory.createDataSource(value));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -97,7 +95,7 @@ public class SelfDruidAutoConfiguration {
         }
 
         //属性合并
-        private static void combine(Object source, Object target, boolean putNotNull) {
+        private static void combine(Object source, Object target) {
             if (source == null || target == null) {
                 return;
             }
@@ -109,20 +107,14 @@ public class SelfDruidAutoConfiguration {
                     Method readMethod = descriptor.getReadMethod();
                     Method writeMethod = descriptor.getWriteMethod();
                     //只设置为null的
-                    if (putNotNull || readMethod.invoke(target) == null) {
+                    if (readMethod.invoke(target) == null) {
                         Object value = readMethod.invoke(source);
                         if (value != null) {
                             writeMethod.invoke(target, value);
                         }
                     }
                 }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (IntrospectionException e) {
-                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | IntrospectionException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }

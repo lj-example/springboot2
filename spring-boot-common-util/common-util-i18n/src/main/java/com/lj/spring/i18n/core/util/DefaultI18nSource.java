@@ -31,7 +31,7 @@ public final class DefaultI18nSource {
     /**
      * 初始化 messageSource 方便被后续调用
      */
-    public static void InitDefaultI18nSource(MessageSource messageSource) {
+    public static void initDefaultI18nSource(MessageSource messageSource) {
         synchronized (messageSource) {
             MessageSource value = InnerClass.InnerClass.messageSource;
             //避免重复注册
@@ -40,7 +40,5 @@ public final class DefaultI18nSource {
             }
         }
     }
-
-
 }
 

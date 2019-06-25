@@ -17,6 +17,7 @@ public interface BaseDecoratorService<T extends BaseEntity> extends AbstractServ
      * @param t 主键，目前系统中全为 long
      * @return
      */
+    @Override
     int deleteByPrimaryKey(T t);
 
     /**
@@ -25,6 +26,7 @@ public interface BaseDecoratorService<T extends BaseEntity> extends AbstractServ
      *
      * @return
      */
+    @Override
     int deleteByPrimaryKey(Long id);
 
     /**
@@ -33,6 +35,7 @@ public interface BaseDecoratorService<T extends BaseEntity> extends AbstractServ
      * @param example 删除条件
      * @return 操作成功数量
      */
+    @Override
     int deleteByExample(Example example);
 
     /**
@@ -41,6 +44,7 @@ public interface BaseDecoratorService<T extends BaseEntity> extends AbstractServ
      * @param primaryKeys 主键合集
      * @return
      */
+    @Override
     int deleteByPrimaryKeys(Collection primaryKeys);
 
 }

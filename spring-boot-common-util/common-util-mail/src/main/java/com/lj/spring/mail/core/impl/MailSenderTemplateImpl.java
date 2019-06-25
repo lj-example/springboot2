@@ -83,10 +83,7 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
                         .processTemplateIntoString(template, templateMailMessage.getData());
                 mimeMessageHelper.setText(templateIntoString, true);
                 javaMailSender.send(mimeMessage);
-            } catch (MessagingException e) {
-                log.info(buildFailMessage("获取模板文件失败！"));
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (MessagingException | IOException e) {
                 log.info(buildFailMessage("获取模板文件失败！"));
                 e.printStackTrace();
             } catch (TemplateException e) {
@@ -200,7 +197,7 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
     private static void validateMailMessageInfo(SimpleMailMessage simpleMailMessage) {
         Assert.isTrue(!StringUtils.isEmpty(simpleMailMessage.getSubject()), "邮件主题不能为空！");
         Assert.isTrue(!StringUtils.isEmpty(simpleMailMessage.getContent()), "邮件内容不能为空！");
-        Assert.isTrue(!isEmptyCollection(simpleMailMessage.getToUserList()), "收件人不能为空！");
+        Assert.isTrue(nonEmptyCollection(simpleMailMessage.getToUserList()), "收件人不能为空！");
     }
 
     /**
@@ -208,7 +205,7 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
      */
     private static void validateTemplateMailMessageInfo(TemplateSimpleMailMessage templateMailMessage) {
         Assert.isTrue(!StringUtils.isEmpty(templateMailMessage.getSubject()), "邮件主题不能为空！");
-        Assert.isTrue(!isEmptyCollection(templateMailMessage.getToUserList()), "收件人不能为空！");
+        Assert.isTrue(nonEmptyCollection(templateMailMessage.getToUserList()), "收件人不能为空！");
         Assert.isTrue(!StringUtils.isEmpty(templateMailMessage.getTemplateName()), "模板名称不能为空！");
     }
 
@@ -217,9 +214,9 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
      */
     private static void validateAttachmentMailMessageInfo(AttachmentMailMessage attachmentMailMessage) {
         Assert.isTrue(!StringUtils.isEmpty(attachmentMailMessage.getSubject()), "邮件主题不能为空！");
-        Assert.isTrue(!isEmptyCollection(attachmentMailMessage.getToUserList()), "收件人不能为空！");
+        Assert.isTrue(nonEmptyCollection(attachmentMailMessage.getToUserList()), "收件人不能为空！");
         Assert.isTrue(!StringUtils.isEmpty(attachmentMailMessage.getContent()), "邮件内容不能为空！");
-        Assert.isTrue(!isEmptyCollection(attachmentMailMessage.getAttachmentList()), "附件信息不能为空！");
+        Assert.isTrue(nonEmptyCollection(attachmentMailMessage.getAttachmentList()), "附件信息不能为空！");
     }
 
     /**
@@ -227,9 +224,9 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
      */
     private static void validateAttachmentStreamMailMessageInfo(AttachmentStreamMailMessage mailMessage) {
         Assert.isTrue(!StringUtils.isEmpty(mailMessage.getSubject()), "邮件主题不能为空！");
-        Assert.isTrue(!isEmptyCollection(mailMessage.getToUserList()), "收件人不能为空！");
+        Assert.isTrue(nonEmptyCollection(mailMessage.getToUserList()), "收件人不能为空！");
         Assert.isTrue(!StringUtils.isEmpty(mailMessage.getContent()), "邮件内容不能为空！");
-        Assert.isTrue(!isEmptyCollection(mailMessage.getAttachmentStreamList()), "附件信息不能为空！");
+        Assert.isTrue(nonEmptyCollection(mailMessage.getAttachmentStreamList()), "附件信息不能为空！");
     }
 
     /**
@@ -258,12 +255,12 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
         try {
             String internetAddressTo = listToString.apply(simpleMailMessage.getToUserList());
             mimeMessage.setRecipients(Message.RecipientType.TO, internetAddressTo);
-            if (!isEmptyCollection(simpleMailMessage.getCcUserList())) {
+            if (nonEmptyCollection(simpleMailMessage.getCcUserList())) {
                 //抄送
                 final String internetAddressCC = listToString.apply(simpleMailMessage.getCcUserList());
                 mimeMessage.setRecipients(Message.RecipientType.CC, internetAddressCC);
             }
-            if (!isEmptyCollection(simpleMailMessage.getBccUserList())) {
+            if (nonEmptyCollection(simpleMailMessage.getBccUserList())) {
                 //秘密抄送
                 final String internetAddressBCC = listToString.apply(simpleMailMessage.getBccUserList());
                 mimeMessage.setRecipients(Message.RecipientType.BCC, internetAddressBCC);
@@ -278,8 +275,8 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
     /**
      * 判断集合是否为空
      */
-    private static boolean isEmptyCollection(Collection collection) {
-        return null == collection || collection.size() == 0;
+    private static boolean nonEmptyCollection(Collection collection) {
+        return null != collection && collection.size() != 0;
     }
 
     /**

@@ -15,7 +15,7 @@ public class LockValueHandler {
      *
      * @param value 待设置数据
      */
-    public static void set(String value) {
+    static void set(String value) {
         LOCAL_VALUE.set(value);
     }
 
@@ -31,7 +31,7 @@ public class LockValueHandler {
     /**
      * 清除本地线程数据
      */
-    public static void clean() {
+    static void clean() {
         LOCAL_VALUE.remove();
     }
 }

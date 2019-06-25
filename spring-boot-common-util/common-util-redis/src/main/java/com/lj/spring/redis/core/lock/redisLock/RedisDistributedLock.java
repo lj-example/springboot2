@@ -80,7 +80,9 @@ public class RedisDistributedLock extends AbstractDistributedLock {
         return Objects.nonNull(execute) && (Boolean) execute;
     }
 
-    //清理未关闭的锁
+    /**
+     * 清理未被关闭的锁
+     */
     public RedisDistributedLock(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

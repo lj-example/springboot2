@@ -1,6 +1,7 @@
 package com.lj.spring.mybatis.provider;
 
 import com.lj.spring.mybatis.model.BaseEntityOnlyId;
+import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.entity.EntityTable;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
@@ -36,7 +37,7 @@ public class InsertCompeteProvider<T extends BaseEntityOnlyId> {
         for (int index = 0; index < list.size(); index++) {
             allInsertData.add(insertValue(entityTable, index));
         }
-        sql.append(allInsertData.stream().collect(Collectors.joining(",")));
+        sql.append(String.join(",", allInsertData));
         return sql.toString();
     }
 
@@ -45,8 +46,8 @@ public class InsertCompeteProvider<T extends BaseEntityOnlyId> {
      */
     private static String insertColumn(EntityTable entityTable) {
         String columnStr = entityTable.getEntityClassColumns().stream()
-                .filter(column -> column.isInsertable())
-                .map(column -> column.getColumn())
+                .filter(EntityColumn::isInsertable)
+                .map(EntityColumn::getColumn)
                 .collect(Collectors.joining(","));
         return "(" + columnStr + ")";
     }
@@ -56,7 +57,7 @@ public class InsertCompeteProvider<T extends BaseEntityOnlyId> {
      */
     private static String insertValue(EntityTable entityTable, final int index) {
         String data = entityTable.getEntityClassColumns().stream()
-                .filter(column -> column.isInsertable())
+                .filter(EntityColumn::isInsertable)
                 .map(column -> "#{arg0[" + index + "]." + column.getEntityField().getName() + "}")
                 .collect(Collectors.joining(","));
         return "(" + data + ")";

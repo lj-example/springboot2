@@ -20,7 +20,6 @@ public interface MailSenderTemplate {
      */
     void sendTemplateMail(TemplateSimpleMailMessage templateMailMessage);
 
-
     /**
      * 发送带有附件的邮件
      */

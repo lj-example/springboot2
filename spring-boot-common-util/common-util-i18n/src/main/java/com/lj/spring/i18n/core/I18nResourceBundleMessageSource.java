@@ -32,9 +32,7 @@ public class I18nResourceBundleMessageSource extends ReloadableResourceBundleMes
         i18nResourceBundleMessageSource.setCacheSeconds(pathProperties.getCacheSeconds());
         i18nResourceBundleMessageSource.setUseCodeAsDefaultMessage(pathProperties.getUseCodeAsDefaultMessage());
 
-        /**
-         * 设置文件路径
-         */
+        //设置文件路径
         List<String> collect = pathProperties.getFilePath().stream()
                 .filter(path -> !StringUtils.isEmpty(path))
                 .distinct()
@@ -85,10 +83,7 @@ public class I18nResourceBundleMessageSource extends ReloadableResourceBundleMes
      * 构建baseName
      */
     private static String buildBaseNameByFolderName(String folderName) {
-        return new StringBuilder(I18nProperties.DEFAULT_FILE_PATH)
-                .append(folderName)
-                .append("/messages")
-                .toString();
+        return I18nProperties.DEFAULT_FILE_PATH + folderName + "/messages";
     }
 
     /**
@@ -98,7 +93,7 @@ public class I18nResourceBundleMessageSource extends ReloadableResourceBundleMes
         if (getCacheMillis() < 0) {
             PropertiesHolder propHolder = getMergedProperties(locale);
             String result = propHolder.getProperty(code);
-            if (result != null) {
+            if (null != result) {
                 return result;
             }
         } else {
@@ -114,4 +109,3 @@ public class I18nResourceBundleMessageSource extends ReloadableResourceBundleMes
         return null;
     }
 }
-

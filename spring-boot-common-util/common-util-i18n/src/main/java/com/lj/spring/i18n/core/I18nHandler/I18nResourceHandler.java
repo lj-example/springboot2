@@ -14,7 +14,7 @@ public class I18nResourceHandler {
     /**
      * 存储 多语言信息
      */
-    private static ThreadLocal<I18nInfo> I18N_INFO = ThreadLocal.withInitial(() -> I18nInfo.defaultInfo());
+    private static ThreadLocal<I18nInfo> I18N_INFO = ThreadLocal.withInitial(I18nInfo::defaultInfo);
 
     /**
      * 设置所有属性

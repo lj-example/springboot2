@@ -67,7 +67,6 @@ public class SelfMybatisAutoConfiguration {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dynamicDataSource);
         //sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapper/*.xml"));
-        //添加分页组件
         sqlSessionFactory.setPlugins(new Interceptor[]{pageInterceptor()});
         log.info(">>>>> 初始化【SqlSessionFactory】 完成");
         return sqlSessionFactory.getObject();

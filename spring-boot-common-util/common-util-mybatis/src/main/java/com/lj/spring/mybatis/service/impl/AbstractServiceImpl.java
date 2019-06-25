@@ -86,7 +86,7 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
         return baseMapper().selectCountByExample(example);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int deleteByPrimaryKey(T t) {
         checkIllegalId(t.getId());
         return baseMapper().deleteByPrimaryKey(t);
@@ -148,7 +148,7 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
 
     @Transactional
     public int updateByExample(T t, Example example) {
-        buildInsertInfo(t);
+        buildUpdateInfo(t);
         return baseMapper().updateByExample(t, example);
     }
 

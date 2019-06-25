@@ -41,11 +41,11 @@ public class SelfDruidMonitorConfiguration {
     private final MultiDruidProperties multiDruidProperties;
 
     @Bean
-    public ServletRegistrationBean druidServlet() {
+    public ServletRegistrationBean<StatViewServlet> druidServlet() {
         MultiDruidProperties.MonitorProperties monitor = multiDruidProperties.getMonitor();
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
+        ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<>();
         servletRegistrationBean.setServlet(new StatViewServlet());
-        final ArrayList list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
         list.add(monitor.getDruidStatView());
         servletRegistrationBean.setUrlMappings(list);
         // IP白名单
@@ -66,8 +66,8 @@ public class SelfDruidMonitorConfiguration {
     }
 
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+    public FilterRegistrationBean<WebStatFilter> filterRegistrationBean() {
+        FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<>(new WebStatFilter());
         MultiDruidProperties.MonitorProperties monitor = multiDruidProperties.getMonitor();
         //添加过滤规则.
         filterRegistrationBean.addUrlPatterns(monitor.getDruidWebStatFilter());
