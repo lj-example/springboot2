@@ -35,8 +35,8 @@ public interface I18nEnumInterface {
      *
      * @return 对应语言的 List
      */
-    static <T extends I18nEnumInterface> List<HashMap<String, Object>> as18nList(Class<T> classz) {
-        if (Objects.nonNull(classz)) {
+    static <T extends I18nEnumInterface> List<HashMap<String, Object>> as18nList(Class<T> clazz) {
+        if (Objects.nonNull(clazz)) {
             Function<T, HashMap<String, Object>> apply = (constant) -> {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("key", constant.getI18nKey());
@@ -44,13 +44,13 @@ public interface I18nEnumInterface {
                 return map;
             };
 
-            List<HashMap<String, Object>> mapList = Arrays.stream(classz.getEnumConstants())
+            List<HashMap<String, Object>> mapList = Arrays.stream(clazz.getEnumConstants())
                     .sorted(comparingInt(I18nEnumInterface::getI18nIndex))
                     .map(apply)
                     .collect(Collectors.toList());
             return mapList;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     /**

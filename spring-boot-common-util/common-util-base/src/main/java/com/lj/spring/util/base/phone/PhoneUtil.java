@@ -5,6 +5,8 @@ import com.google.i18n.phonenumbers.PhoneNumberToCarrierMapper;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder;
+import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import java.util.stream.Stream;
  * 手机号 处理工具类
  * Created by lijun on 2019/4/25
  */
+@UtilityClass
 public class PhoneUtil {
 
     /**
@@ -89,6 +92,9 @@ public class PhoneUtil {
      * @return 手机号信息
      */
     public static PhoneUtilBo getPhoneBoInfo(String phoneNumber) {
+        if (StringUtils.isBlank(phoneNumber)) {
+            return null;
+        }
         final PhoneUtilBo phoneUtilBo = new PhoneUtilBo();
         //运营商
         final String carrier = getCarrier(phoneNumber);

@@ -13,6 +13,7 @@ import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.WeekendSqls;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -44,9 +45,8 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServ
     @Override
     public T selectByPrimaryKey(Object key) {
         checkIllegalId(key);
-        Object o = baseMapper.selectByPrimaryKey(key);
-        if (null != o) {
-            T result = (T) o;
+        T result = baseMapper.selectByPrimaryKey(key);
+        if (null != result) {
             if (!BaseStatusEnum.isNormal(result.getStatus())) {
                 return null;
             }
@@ -89,7 +89,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServ
         return collect;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     @Override
     public int deleteByPrimaryKey(Long id) {
         if (null == id || 0 >= id) {
@@ -103,7 +103,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServ
         return deleteByExample(example);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     @Override
     public int deleteByExample(Example example) {
         try {
@@ -121,7 +121,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServ
     }
 
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     @Override
     public int deleteByPrimaryKeys(Collection primaryKeys) {
         if (primaryKeys == null || primaryKeys.size() == 0) {
@@ -138,7 +138,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServ
         return deleteByExample(example);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     @Override
     public int updateByExample(T t, Example example) {
         fixExample(example);
@@ -146,7 +146,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServ
         return baseMapper.updateByExample(t, example);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     @Override
     public int updateByExampleSelective(T t, Example example) {
         fixExample(example);
@@ -154,7 +154,7 @@ public class BaseDecoratorServiceImpl<T extends BaseEntity> extends AbstractServ
         return baseMapper.updateByExampleSelective(t, example);
     }
 
-    private static void fixExample(Example example) {
+    protected static void fixExample(Example example) {
         example.and().andEqualTo("status", BaseStatusEnum.NORMAL.getCode());
         example.setOrderByClause(StringUtils.isEmpty(example.getOrderByClause()) ?
                 "id DESC" : example.getOrderByClause() + ",id DESC");

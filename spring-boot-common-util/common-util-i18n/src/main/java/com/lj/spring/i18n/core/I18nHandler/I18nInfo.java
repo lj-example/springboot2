@@ -33,7 +33,7 @@ public class I18nInfo {
      * - 此处最好使用克隆模式
      */
     public static I18nInfo defaultInfo() {
-         return new I18nInfo("", Locale.CANADA);
+         return new I18nInfo("", Locale.SIMPLIFIED_CHINESE);
     }
 
 }

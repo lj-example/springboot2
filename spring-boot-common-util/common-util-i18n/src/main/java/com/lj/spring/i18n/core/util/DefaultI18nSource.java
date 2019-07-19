@@ -1,6 +1,7 @@
 package com.lj.spring.i18n.core.util;
 
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.UtilityClass;
 import org.springframework.context.MessageSource;
 
 import java.util.Objects;

@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.WeekendSqls;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -40,7 +42,7 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
      */
     abstract BaseComponentMapper<T> baseComponentMapper();
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public Integer save(T t) {
         if (null == t) {
             return 0;
@@ -67,6 +69,7 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
     }
 
     public List<T> selectByExample(Example example) {
+        fixExample(example);
         return baseMapper().selectByExample(example);
     }
 
@@ -92,28 +95,28 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
         return baseMapper().deleteByPrimaryKey(t);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int deleteByPrimaryKey(Long id) {
         return baseMapper().deleteByPrimaryKey(id);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int deleteByExample(Example example) {
         return baseMapper().deleteByExample(example);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int deleteByPrimaryKeys(Collection primaryKeys) {
         return baseMapper().deleteByPrimaryKey(primaryKeys);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int insert(T t) {
         buildInsertInfo(t);
         return baseMapper().insert(t);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int insertAll(List<T> list) {
         if (null == list || list.size() == 0) {
             return 0;
@@ -127,7 +130,7 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
         return baseComponentMapper().insertAll(collect);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int updateByPrimaryKey(T t) {
         if (null == t) {
             return 0;
@@ -146,13 +149,13 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
         return 0;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int updateByExample(T t, Example example) {
         buildUpdateInfo(t);
         return baseMapper().updateByExample(t, example);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = SQLException.class)
     public int updateByExampleSelective(T t, Example example) {
         buildUpdateInfo(t);
         return baseMapper().updateByExampleSelective(t, example);
@@ -201,6 +204,11 @@ public abstract class AbstractServiceImpl<T extends BaseEntityOnlyId> {
             clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
         }
         return clazz;
+    }
+
+    protected static void fixExample(Example example) {
+        example.setOrderByClause(StringUtils.isEmpty(example.getOrderByClause()) ?
+                "id DESC" : example.getOrderByClause() + ",id DESC");
     }
 
 }

@@ -46,6 +46,6 @@ public class LuaScript {
      */
     public static boolean unLockResult(Object scriptResult) {
         return Objects.nonNull(scriptResult)
-                && UN_LOCK_SUCCESS.equals(scriptResult);
+                && UN_LOCK_SUCCESS.equals((((Number) scriptResult)).intValue());
     }
 }

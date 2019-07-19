@@ -3,15 +3,19 @@ package com.lj.spring.dataSource.support;
 
 import com.lj.spring.dataSource.common.Common;
 import com.lj.spring.dataSource.config.MultiDruidProperties;
+import com.lj.spring.dataSource.core.dynamic.AbstractDynamicAspect;
 import com.lj.spring.dataSource.core.dynamic.DynamicCommon;
 import com.lj.spring.dataSource.core.dynamic.DynamicDataSource;
 import com.lj.spring.dataSource.model.MultiDataSources;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -51,4 +55,14 @@ public class SelfDynamicAutoConfiguration {
         return dynamicDataSource;
     }
 
+    /**
+     * 注册一个 多数据源切面
+     */
+    @Aspect
+    @RequiredArgsConstructor
+    @Configuration
+    @ConditionalOnMissingBean(AbstractDynamicAspect.class)
+    public static class DynamicAspectConfiguration extends AbstractDynamicAspect {
+
+    }
 }

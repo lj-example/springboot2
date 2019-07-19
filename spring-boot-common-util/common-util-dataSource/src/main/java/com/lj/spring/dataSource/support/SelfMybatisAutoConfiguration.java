@@ -43,7 +43,7 @@ import static com.lj.spring.dataSource.support.SelfMybatisAutoConfiguration.NAME
 @ConditionalOnProperty(name = NAME, havingValue = NAME_DEFAULT_VALUE)
 @EnableConfigurationProperties(MultiDruidProperties.class)
 @AutoConfigureAfter(value = {MultiDruidProperties.class, DataSource.class})
-@Import(value = {SelfDynamicAutoConfiguration.class})
+@Import(value = {SelfDynamicAutoConfiguration.class, SelfDynamicAutoConfiguration.DynamicAspectConfiguration.class})
 public class SelfMybatisAutoConfiguration {
 
     /**

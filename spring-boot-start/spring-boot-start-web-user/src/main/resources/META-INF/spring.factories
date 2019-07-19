@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.lj.spring.web.user.support.UserTokenAutoConfiguration\
+  

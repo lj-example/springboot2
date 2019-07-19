@@ -1,4 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.lj.spring.common.web.ExceptionAdvice,\
-  com.lj.spring.common.json.JacksonConfigure
+  com.lj.spring.web.tool.web.ResponseAdvice,\
+  com.lj.spring.web.tool.web.ExceptionAdvice,\
+  com.lj.spring.web.tool.json.JacksonAutoConfiguration,\
+  com.lj.spring.web.tool.restTemplate.RestTemplateAutoConfiguration
 

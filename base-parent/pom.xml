@@ -11,7 +11,6 @@
 
     <!--声明子模块-->
     <modules>
-        <module>../base-start</module>
         <module>../spring-boot-common-util</module>
         <module>../spring-boot-start</module>
         <module>web-base-parent</module>
@@ -27,6 +26,11 @@
         <springboot.test.version>2.1.3.RELEASE</springboot.test.version>
 
         <swagger.version>2.9.2</swagger.version>
+        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
+        <springboot.test.version>2.1.3.RELEASE</springboot.test.version>
+
+        <!-- swagger -->
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>1.9.0</springfox-swagger-ui.version>
 
         <!-- 组件版本信息 -->
@@ -34,14 +38,14 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <git-commit-id-plugin.version>2.2.6</git-commit-id-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-        <spring-boot-start-web-tool>1.0-SNAPSHOT</spring-boot-start-web-tool>
-
 
         <!-- commons -->
-        <commons-lang3.version>3.4</commons-lang3.version>
-        <commons-io.version>2.4</commons-io.version>
-        <commons-codec.version>1.10</commons-codec.version>
-        <commons-beanutils.version>1.8.3</commons-beanutils.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <commons-io.version>2.6</commons-io.version>
+        <commons-codec.version>1.12</commons-codec.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <commons-collections4.version>4.3</commons-collections4.version>
+        <commons-math3.version>3.6.1</commons-math3.version>
 
         <!-- caffeine -->
         <caffeine.version>2.6.2</caffeine.version>
@@ -50,22 +54,43 @@
         <guava.version>20.0</guava.version>
 
         <!--json-->
-        <fastjson.version>1.2.31</fastjson.version>
+        <fastjson.version>1.2.9</fastjson.version>
 
         <!--常用工具-->
-        <spring-boot-common-util-mail>1.0-SNAPSHOT</spring-boot-common-util-mail>
-        <spring-boot-common-util-base>1.0-SNAPSHOT</spring-boot-common-util-base>
-        <spring-boot-common-util-dataSource>1.0-SNAPSHOT</spring-boot-common-util-dataSource>
-        <spring-boot-common-util-mybatis>1.0-SNAPSHOT</spring-boot-common-util-mybatis>
-        <spring-boot-common-util-redis>1.0-SNAPSHOT</spring-boot-common-util-redis>
-        <spring-boot-common-util-i18n>1.0-SNAPSHOT</spring-boot-common-util-i18n>
+        <spring-boot-common-util-mail.version>1.0-SNAPSHOT</spring-boot-common-util-mail.version>
+        <spring-boot-common-util-base.version>1.0-SNAPSHOT</spring-boot-common-util-base.version>
+        <spring-boot-common-util-dataSource.version>1.0-SNAPSHOT</spring-boot-common-util-dataSource.version>
+        <spring-boot-common-util-mybatis.version>1.0-SNAPSHOT</spring-boot-common-util-mybatis.version>
+        <spring-boot-common-util-redis.version>1.0-SNAPSHOT</spring-boot-common-util-redis.version>
+        <spring-boot-common-util-i18n.version>1.0-SNAPSHOT</spring-boot-common-util-i18n.version>
+
+        <!--封装工具-->
+        <spring-boot-start-final.version>1.0-SNAPSHOT</spring-boot-start-final.version>
+        <spring-boot-start-web-tool.version>1.0-SNAPSHOT</spring-boot-start-web-tool.version>
+        <spring-boot-start-web-user.version>1.0-SNAPSHOT</spring-boot-start-web-user.version>
 
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- spring 相关 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-            <!-- dataSource 工具包  -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- common 工具包  -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -86,7 +111,16 @@
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math3</artifactId>
+                <version>${commons-math3.version}</version>
+            </dependency>
             <!-- guava 工具包-->
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -94,19 +128,11 @@
                 <version>${guava.version}</version>
             </dependency>
 
+            <!-- jason -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
-            </dependency>
-
-            <!-- spring 相关 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${springboot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
 
             <!-- swagger API文档 -->
@@ -121,47 +147,68 @@
                 <version>${springfox-swagger-ui.version}</version>
             </dependency>
 
-            <!-- 自定义组件 -->
+            <!-- ########################## 自定义组件 开始 ##############################-->
+            <!-- 公共常量信息 -->
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>spring-boot-start-final</artifactId>
+                <version>${spring-boot-start-final.version}</version>
+            </dependency>
+
+            <!-- 系统常用配置 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>spring-boot-start-web-tool</artifactId>
-                <version>${spring-boot-start-web-tool}</version>
+                <version>${spring-boot-start-web-tool.version}</version>
             </dependency>
 
+            <!-- user-Session 相关操作 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
-                <artifactId>common-util-mail</artifactId>
-                <version>${spring-boot-common-util-mail}</version>
+                <artifactId>spring-boot-start-web-user</artifactId>
+                <version>${spring-boot-start-web-user.version}</version>
             </dependency>
 
+            <!-- 系统常用工具 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-base</artifactId>
-                <version>${spring-boot-common-util-mail}</version>
+                <version>${spring-boot-common-util-base.version}</version>
             </dependency>
 
+            <!-- 邮件 -->
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>common-util-mail</artifactId>
+                <version>${spring-boot-common-util-mail.version}</version>
+            </dependency>
+
+            <!-- 数据库自动注入 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-dataSource</artifactId>
-                <version>${spring-boot-common-util-dataSource}</version>
+                <version>${spring-boot-common-util-dataSource.version}</version>
             </dependency>
 
+            <!-- mybatis 自动配置 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-mybatis</artifactId>
-                <version>${spring-boot-common-util-mybatis}</version>
+                <version>${spring-boot-common-util-mybatis.version}</version>
             </dependency>
 
+            <!-- redis 管理工具 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-redis</artifactId>
-                <version>${spring-boot-common-util-redis}</version>
+                <version>${spring-boot-common-util-redis.version}</version>
             </dependency>
 
+            <!-- 多语言工具 -->
             <dependency>
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>common-util-i18n</artifactId>
-                <version>${spring-boot-common-util-i18n}</version>
+                <version>${spring-boot-common-util-i18n.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -174,22 +221,38 @@
         </dependency>
     </dependencies>
 
+    <!-- 配置部署的远程仓库 -->
+<!--    <distributionManagement>-->
+<!--    </distributionManagement>-->
+
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--        </repository>-->
+
+<!--        <repository>-->
+<!--            <id>aliyun</id>-->
+<!--            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+
     <!-- 设置环境信息 -->
     <profiles>
         <profile>
             <id>dev</id>
-            <properties>
-                <project.environment>dev</project.environment>
-            </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <project.environment>dev</project.environment>
+                <logLevel>debug</logLevel>
+            </properties>
         </profile>
 
         <profile>
             <id>test</id>
             <properties>
                 <project.environment>test</project.environment>
+                <logLevel>debug</logLevel>
             </properties>
         </profile>
 
@@ -197,6 +260,7 @@
             <id>release</id>
             <properties>
                 <project.environment>release</project.environment>
+                <logLevel>info</logLevel>
             </properties>
         </profile>
 
@@ -204,6 +268,7 @@
             <id>product</id>
             <properties>
                 <project.environment>product</project.environment>
+                <logLevel>info</logLevel>
             </properties>
         </profile>
     </profiles>

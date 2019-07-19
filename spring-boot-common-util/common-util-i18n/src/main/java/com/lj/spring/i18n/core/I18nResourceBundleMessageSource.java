@@ -2,6 +2,7 @@ package com.lj.spring.i18n.core;
 
 import com.lj.spring.i18n.config.I18nProperties;
 import com.lj.spring.i18n.core.I18nHandler.I18nResourceHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.util.Assert;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Created by junli on 2019-06-13
  */
+@Slf4j
 public class I18nResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
 
     /**
@@ -60,7 +62,6 @@ public class I18nResourceBundleMessageSource extends ReloadableResourceBundleMes
     @Override
     protected String resolveCodeWithoutArguments(String code, Locale locale) {
         final String i18nFolderName = I18nResourceHandler.getFolderName();
-
         if (StringUtils.isEmpty(i18nFolderName)) {
             return super.resolveCodeWithoutArguments(code, locale);
         }
@@ -75,8 +76,10 @@ public class I18nResourceBundleMessageSource extends ReloadableResourceBundleMes
                 return super.resolveCodeWithoutArguments(code, locale);
             }
             return result;
+        } else {
+            log.info("【i18n】fileName {} is not in i18n.properties", i18nFolderName);
+            return super.resolveCodeWithoutArguments(code, locale);
         }
-        return null;
     }
 
     /**
