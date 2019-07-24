@@ -454,25 +454,26 @@ public List<Demo> selectFromReadDataSource(String name) {
   
   key 为 语言文件中配置的 key,
   ```
-5. 枚举类有关多语言调用
+5. 
+
 	```java
 	@AllArgsConstructor
 	@Getter
 	public enum TestI18nEnum implements I18nEnumInterface {
-	TEST_ONE("testOne"),
-	TEST_TWO("testTwo");
+		TEST_ONE("testOne"),
+		TEST_TWO("testTwo");
 
-	private String name;
+		private String name;
 
-	@Override
-	public String getI18nCode() {
-	  return name;
-	}
+		@Override
+		public String getI18nCode() {
+		  return name;
+		}
 
-	@Override
-	public String getI18nKey() {
-	  return name;
-	}
+		@Override
+		public String getI18nKey() {
+		  return name;
+		}
 	}
 
 
