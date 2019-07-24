@@ -495,22 +495,22 @@ public List<Demo> selectFromReadDataSource(String name) {
   ```
 #### 扩展
 1.  该模块通过注册了一个拦截器在`head`中获取的语言信息，可以自定义拦截器来覆盖默认拦截器。**请务必保证重写的`beanName`为`Common.I18N_INTERCEPTOR_NAME`，务必保证进入方法之前`I18nResourceHandler`有语言信息。**
-	```java
-	@Component(value = Common.I18N_INTERCEPTOR_NAME)
-public class I18nInterceptorConfiguration implements HandlerInterceptor {
+	```
+		@Component(value = Common.I18N_INTERCEPTOR_NAME)
+		public class I18nInterceptorConfiguration implements HandlerInterceptor {
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        I18nResourceHandler.setInfo(Common.DEFAULT_LOCALE);
-        //此处必须返回true 保证后续继续可执行
-        return true;
-    }
+		    @Override
+		    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+			I18nResourceHandler.setInfo(Common.DEFAULT_LOCALE);
+			//此处必须返回true 保证后续继续可执行
+			return true;
+		    }
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        I18nResourceHandler.clean();
-    }
-}
+		    @Override
+		    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+			I18nResourceHandler.clean();
+		    }
+		}
 	```
 2.  该模块通过`Aop`来确认当前线程优先检索哪个语言文件，**如果想保证优先检索某个文件，处理在重名情况下优先使用该目录信息，务必关注。`spring` 会默认从第一个文件开始查找，找到即返回。**默认的`Aop`切面为`@annotation(xxx.i18n.core.I18nHandler.I18nFolderName)`。不扩展此`Aop`写法为:
   ```java
