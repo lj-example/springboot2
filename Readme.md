@@ -454,8 +454,7 @@ public List<Demo> selectFromReadDataSource(String name) {
   
   key 为 语言文件中配置的 key,
   ```
-5. 
-
+5. 枚举类有关多语言调用
 	```java
 	@AllArgsConstructor
 	@Getter
@@ -524,20 +523,21 @@ public class I18nInterceptorConfiguration implements HandlerInterceptor {
   }
   ```
   ` @I18nFolderName("demo")` 也可以直接配置当前类上面。
-  
+   配置代码如下：
     ```java
     @I18nFolderName("demo")
     public class I18nController(){}
-	  ```
-  但是这种情况配置默认的`Aop`就无法生效，建议按照如下扩展：
-    ```java
-    @Aspect
-    @Component
-    public class I18nAspectTemplateComponent extends AbstractI18nAspectTemplate {
-        @Override
-        @Pointcut("execution(* xxx.controller.*.*(..))")
-        public void enablePath() { }
-    }
+    ```
+   但是这种情况配置默认的`Aop`就无法生效，建议按照如下扩展：
+  
+    ```
+	    @Aspect
+	    @Component
+	    public class I18nAspectTemplateComponent extends AbstractI18nAspectTemplate {
+		@Override
+		@Pointcut("execution(* xxx.controller.*.*(..))")
+		public void enablePath() { }
+	    }
     ```
 ---
 ### common-util-mail
