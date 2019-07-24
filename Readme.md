@@ -680,7 +680,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 	
 	+ `DefaultBizExceptionResolver`：业务异常接收器。
 
-  + `DefaultRuntimeExceptionResolver`：系统异常接收器。
+  	+ `DefaultRuntimeExceptionResolver`：系统异常接收器。
   
     自定义异常接收器：
   ```java
@@ -713,7 +713,7 @@ public List<Demo> selectFromReadDataSource(String name) {
   }
   ```
 3. 扩展参数解析器，如果当前项目中集成了其他的`web`项目，例如`swagger`，统一的增强结果封装也会封装这类的请求接口从而导致`web`组件失效，此时可以通过扩展参数解析来解决。
-  ```java
+  ```
   @RestControllerAdvice
   public class ResponseAdviceConfiguration extends AbstractResponseAdviceTemplate {
 
@@ -726,9 +726,9 @@ public List<Demo> selectFromReadDataSource(String name) {
       }
   }
 
-  ---
+  
   如果如上依旧不能满足需求，可以考虑重写 supports 方法
-	```
+  ```
 ---
 ### start-web-user
 #### 描述
