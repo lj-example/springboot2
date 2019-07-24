@@ -54,7 +54,7 @@
         <guava.version>20.0</guava.version>
 
         <!--json-->
-        <fastjson.version>1.2.9</fastjson.version>
+        <fastjson.version>1.2.31</fastjson.version>
 
         <!--常用工具-->
         <spring-boot-common-util-mail.version>1.0-SNAPSHOT</spring-boot-common-util-mail.version>
