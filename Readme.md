@@ -784,8 +784,6 @@ public List<Demo> selectFromReadDataSource(String name) {
 	  
 #### 扩展
   1. 扩展异常提示信息，组件默认提供了不同情况下的异常信息提示，可以根据实际情况自定义异常信息提示。
- 
-    ```
     @Slf4j
     @Component
     @RequiredArgsConstructor
@@ -816,4 +814,3 @@ public List<Demo> selectFromReadDataSource(String name) {
 	    throw new TokenBizException("Your account is logged in elsewhere");
       }
     }
-    ```
