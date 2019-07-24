@@ -193,12 +193,12 @@ public List<Demo> selectFromReadDataSource(String name) {
 	+ 该配置提供自定义配置文件，对应类信息为：`MultiDruidProperties.MonitorProperties`，配置信息如下所示：
 	```yml
 	spring:
-  	datasource:
-  		monitor:
-  			enable: enable
-  			### 白名单
-  			allow: xxxx
-				...
+	  datasource:
+	    monitor:
+	      enable: enable
+	      ### 白名单
+	      allow: xxxx
+	      ...
 	```
 	**强烈建议在线上服务中配置 白名单、黑名单，不要把该地址在对公网开放**。
 	
@@ -322,8 +322,9 @@ public List<Demo> selectFromReadDataSource(String name) {
 1. 自定义`mybatis` 相关配置：根据官方自动配置即可，需要在`@MapperScan`中额外声明`DynamicMapperPackage.DYNAMIC_PACKAGE_PATH`路径。**此处建议使用`tk.mybatis.spring.annotation.MapperScan`**
 
 2.  自定义`sql`语句
-	+ 定义`SqlProvider`
-     ```java
+	+ 定义`SqlProvider`。
+	
+     ```
   public class DemoSqlProvider {
         /**
          * 自定义sql 根据 `name` 模糊查询
