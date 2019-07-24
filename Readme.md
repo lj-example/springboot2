@@ -783,38 +783,38 @@ public List<Demo> selectFromReadDataSource(String name) {
 	  **不建议在业务代码中直接从本地线程中获取`userId`，个人建议在`service`中显示声明，保证接口的语义明确**
 	  
 #### 扩展
-
   1. 扩展异常提示信息，组件默认提供了不同情况下的异常信息提示，可以根据实际情况自定义异常信息提示。
+  
     ```
-    @Slf4j
-    @Component
-    @RequiredArgsConstructor
-    public class UserIllegalTokenHandleDefaultServiceImpl implements UserIllegalTokenHandleService {
+	    @Slf4j
+	    @Component
+	    @RequiredArgsConstructor
+	    public class UserIllegalTokenHandleDefaultServiceImpl implements UserIllegalTokenHandleService {
 
-        /**
-         * Head 头中没有 token 信息
-         */
-        @Override
-        public void assertAndHandleNoTokenHead() {
-          throw new TokenBizException("head miss token info");
-        }
+		/**
+		 * Head 头中没有 token 信息
+		 */
+		@Override
+		public void assertAndHandleNoTokenHead() {
+		  throw new TokenBizException("head miss token info");
+		}
 
-        /**
-         * 当前 token 不存在
-         */
-        @Override
-        public void assertAndHandleNoTokenInfo() {
-          throw new TokenBizException("Token information is lost");
-        }
+		/**
+		 * 当前 token 不存在
+		 */
+		@Override
+		public void assertAndHandleNoTokenInfo() {
+		  throw new TokenBizException("Token information is lost");
+		}
 
-        /**
-         * 当前 token 已经过期
-         * @param oldUserSession 过期用户信息
-         */
-        @Override
-        public void assertAndHandOldToken(UserSessionRedis oldUserSession) {
-            throw new TokenBizException("Your account is logged in elsewhere");
-      }
-    }
-    
+		/**
+		 * 当前 token 已经过期
+		 * @param oldUserSession 过期用户信息
+		 */
+		@Override
+		public void assertAndHandOldToken(UserSessionRedis oldUserSession) {
+		    throw new TokenBizException("Your account is logged in elsewhere");
+	      }
+	    }
+   
     ```
