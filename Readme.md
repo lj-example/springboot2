@@ -59,30 +59,31 @@ System.out.println(DateFormatUtil.DEFAULT_FORMAT.format(new Date()));
 ##### enumUtil
 枚举工具
 + `EnumUtilInterface` 定义了接口，使用该工具的枚举类必须实现该接口。
+
   ```java
-  @AllArgsConstructor
-  @Getter
-  enum TestEnum implements EnumUtilInterface {
-      TestEnumOne(1, "name-1"),
-      TestEnumTwo(2, "name-2");
-      private Integer code;
-      private String name;
+	  @AllArgsConstructor
+	  @Getter
+	  enum TestEnum implements EnumUtilInterface {
+	      TestEnumOne(1, "name-1"),
+	      TestEnumTwo(2, "name-2");
+	      private Integer code;
+	      private String name;
 
-      @Override
-      public int getKey() {
-          return code;
-      }
+	      @Override
+	      public int getKey() {
+		  return code;
+	      }
 
-      @Override
-      public String getValue() {
-          return name;
-      }
-  }
+	      @Override
+	      public String getValue() {
+		  return name;
+	      }
+	  }
 
-  ---
-  TestEnum anEnum = EnumUtil.getEnum(1, TestEnum.class);
-  Assert.assertTrue(TestEnum.TestEnumOne.equals(anEnum)); --true
-  Assert.assertTrue(anEnum.is(1)); -- true
+	  ---
+	  TestEnum anEnum = EnumUtil.getEnum(1, TestEnum.class);
+	  Assert.assertTrue(TestEnum.TestEnumOne.equals(anEnum)); --true
+	  Assert.assertTrue(anEnum.is(1)); -- true
   ```
 
 ##### phone
