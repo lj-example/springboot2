@@ -24,10 +24,5 @@ public class UserBusinessBo {
      */
     private String mobile;
 
-    /**
-     * 用户 token
-     */
-    private String token;
-
 }
 

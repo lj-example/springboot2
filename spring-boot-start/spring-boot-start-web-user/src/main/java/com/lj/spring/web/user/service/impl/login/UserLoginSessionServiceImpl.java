@@ -1,6 +1,7 @@
 package com.lj.spring.web.user.service.impl.login;
 
 import com.lj.spring.web.user.common.Common;
+import com.lj.spring.web.user.config.UserRedisProperties;
 import com.lj.spring.web.user.core.redis.UserSimpleRedisTemplate;
 import com.lj.spring.web.user.model.UserBusinessBo;
 import com.lj.spring.web.user.service.login.UserLoginSessionService;
@@ -22,6 +23,8 @@ public class UserLoginSessionServiceImpl implements UserLoginSessionService {
 
     private final UserSimpleRedisTemplate userSimpleRedisTemplate;
     private final UserSessionService userSessionService;
+
+    private final UserRedisProperties userRedisProperties;
 
     @Override
     public String buildUserTokenAfterLogin(UserBusinessBo userBusinessBo) {
@@ -58,7 +61,7 @@ public class UserLoginSessionServiceImpl implements UserLoginSessionService {
         String userTokenKey = UserSessionUtil.buildUserTokenKey(userBusinessBo.getMobile());
         String token = UserSessionUtil.uuIdToken();
         userSimpleRedisTemplate.set(userTokenKey, token);
-        userSimpleRedisTemplate.expire(userTokenKey, Common.TOKEN_EXPIRE_SECOND);
+        userSimpleRedisTemplate.expire(userTokenKey, userRedisProperties.getTokenExpireSecond());
         //处理hash
         HashMap<String, String> map = new HashMap<>(16);
         String nowDateStr = UserSessionUtil.getNowDateStr();
@@ -70,7 +73,7 @@ public class UserLoginSessionServiceImpl implements UserLoginSessionService {
         map.put(Common.HashKey.NEW_DEVICE_LOGIN_TIME.name(), StringUtils.EMPTY);
         //设置缓存
         userSimpleRedisTemplate.hPutAll(token, map);
-        userSimpleRedisTemplate.expire(token, Common.TOKEN_EXPIRE_SECOND);
+        userSimpleRedisTemplate.expire(token, userRedisProperties.getTokenExpireSecond());
         return token;
     }
 

@@ -1,11 +1,11 @@
 package com.lj.spring.mail.support;
 
+import com.lj.spring.mail.common.Common;
 import com.lj.spring.mail.config.MailProperties;
-import com.lj.spring.mail.core.impl.MailSenderTemplateImpl;
 import com.lj.spring.mail.core.MailSenderTemplate;
+import com.lj.spring.mail.core.impl.MailSenderTemplateImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class JavaMailSendConfiguration {
 
     private final MailProperties mailProperties;
 
-    @Bean("simpleJavaMailSender")
+    @Bean(Common.JAVA_MAIL_SENDER)
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         //主机、端口
@@ -48,7 +48,7 @@ public class JavaMailSendConfiguration {
         return javaMailSender;
     }
 
-    @Bean("javaMailFreeMarkerConfigurer")
+    @Bean(Common.JAVA_MAIL_FREEMARKER_CONFIGURER)
     public FreeMarkerConfigurer freeMarkerConfigurer() {
         MailProperties.MailFreeMarkConfigurer freeMark = mailProperties.getFreeMark();
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
@@ -57,11 +57,10 @@ public class JavaMailSendConfiguration {
         return freeMarkerConfigurer;
     }
 
-    @Bean
-    @ConditionalOnMissingBean(MailSenderTemplate.class)
+    @Bean(Common.MAIL_SENDER_TEMPLATE)
     public MailSenderTemplate mailSenderTemplate(
-            @Qualifier("simpleJavaMailSender") JavaMailSender javaMailSender,
-            @Qualifier("javaMailFreeMarkerConfigurer") FreeMarkerConfigurer freeMarkerConfigurer) {
+            @Qualifier(Common.JAVA_MAIL_SENDER) JavaMailSender javaMailSender,
+            @Qualifier(Common.JAVA_MAIL_FREEMARKER_CONFIGURER) FreeMarkerConfigurer freeMarkerConfigurer) {
         return new MailSenderTemplateImpl(mailProperties, javaMailSender, freeMarkerConfigurer);
     }
 }

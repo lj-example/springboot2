@@ -46,7 +46,7 @@ public class JacksonAutoConfiguration {
          * NON_EMPTY 属性为 空（""） 或者为 NULL 都不序列化，则返回的json是没有这个字段的。
          * NON_NULL 属性为NULL 不序列化
          */
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
 
         //设置无法转义的字符逻辑
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

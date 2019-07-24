@@ -45,7 +45,6 @@ public class ResultFail extends Result {
     public static ResultFail of(String message) {
         return ResultFail.builder()
                 .code(FAIL_CODE)
-                .data(DEFAULT_DATA)
                 .message(message)
                 .build();
     }
@@ -53,7 +52,6 @@ public class ResultFail extends Result {
     public static ResultFail of(Integer code, String message) {
         return ResultFail.builder()
                 .code(code)
-                .data(DEFAULT_DATA)
                 .message(message)
                 .build();
     }
@@ -61,7 +59,6 @@ public class ResultFail extends Result {
     public static ResultFail defaultResultFail() {
         return ResultFail.builder()
                 .code(FAIL_CODE)
-                .data(DEFAULT_DATA)
                 .message(FAIL_MESSAGE)
                 .build();
     }

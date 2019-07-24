@@ -1,6 +1,7 @@
 package com.lj.spring.web.user.support;
 
 
+import com.lj.spring.web.user.config.UserRedisProperties;
 import com.lj.spring.web.user.core.redis.UserSimpleRedisTemplate;
 import com.lj.spring.web.user.service.impl.session.UserIllegalTokenHandleDefaultServiceImpl;
 import com.lj.spring.web.user.service.impl.session.UserSessionServiceImpl;
@@ -9,6 +10,7 @@ import com.lj.spring.web.user.service.session.UserSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -17,6 +19,7 @@ import org.springframework.context.annotation.Bean;
  */
 @AutoConfigureAfter(UserSimpleRedisTemplate.class)
 @RequiredArgsConstructor
+@EnableConfigurationProperties(UserRedisProperties.class)
 public class UserSessionConfiguration {
 
     /**
@@ -33,8 +36,10 @@ public class UserSessionConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(UserSessionService.class)
-    public UserSessionService userSessionService(UserSimpleRedisTemplate userSimpleRedisTemplate) {
-        return new UserSessionServiceImpl(userSimpleRedisTemplate);
+    public UserSessionService userSessionService(
+            UserSimpleRedisTemplate userSimpleRedisTemplate,
+            UserRedisProperties userRedisProperties) {
+        return new UserSessionServiceImpl(userSimpleRedisTemplate, userRedisProperties);
     }
 
 }

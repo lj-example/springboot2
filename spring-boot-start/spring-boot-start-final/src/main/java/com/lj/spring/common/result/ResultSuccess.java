@@ -43,7 +43,6 @@ public final class ResultSuccess extends Result {
     public static ResultSuccess defaultResultSuccess() {
         return ResultSuccess.builder()
                 .code(SUCCESS_CODE)
-                .data(DEFAULT_DATA)
                 .message(SUCCESS_MESSAGE)
                 .build();
     }

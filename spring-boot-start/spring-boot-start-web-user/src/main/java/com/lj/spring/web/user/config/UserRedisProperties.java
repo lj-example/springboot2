@@ -1,5 +1,6 @@
 package com.lj.spring.web.user.config;
 
+import com.lj.spring.web.user.common.Common;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,6 +17,15 @@ import java.util.List;
 @Data
 public class UserRedisProperties {
 
+    /**
+     * token 声明周期
+     */
+    private Long tokenExpireSecond = Common.TOKEN_EXPIRE_SECOND;
+
+    /**
+     * 被踢之后的 token 生存时间
+     */
+    private Long oldTokenExpireSecond = Common.OLD_TOKEN_EXPIRE_SECOND;
 
     /**
      * Database demo used by the connection factory.

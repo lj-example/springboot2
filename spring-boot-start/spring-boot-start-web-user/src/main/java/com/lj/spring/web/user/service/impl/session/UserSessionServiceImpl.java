@@ -1,6 +1,7 @@
 package com.lj.spring.web.user.service.impl.session;
 
 import com.lj.spring.web.user.common.Common;
+import com.lj.spring.web.user.config.UserRedisProperties;
 import com.lj.spring.web.user.core.redis.UserSimpleRedisTemplate;
 import com.lj.spring.web.user.model.UserSessionRedis;
 import com.lj.spring.web.user.service.session.UserSessionService;
@@ -22,6 +23,8 @@ import java.util.Objects;
 public class UserSessionServiceImpl implements UserSessionService {
 
     private final UserSimpleRedisTemplate userSimpleRedisTemplate;
+
+    private final UserRedisProperties userRedisProperties;
 
     @Override
     public Long getUserIdByToken(String token) {
@@ -67,21 +70,21 @@ public class UserSessionServiceImpl implements UserSessionService {
 
     @Override
     public void handleNormalUserToken(String userToken) {
-        userSimpleRedisTemplate.expire(userToken, Common.TOKEN_EXPIRE_SECOND);
+        userSimpleRedisTemplate.expire(userToken, userRedisProperties.getTokenExpireSecond());
     }
 
     @Override
     public void handleNormalTokenCacheInfo(String token) {
         if (StringUtils.isNoneBlank(token)) {
             userSimpleRedisTemplate.hSet(token, Common.HashKey.DEVICE_SIGN_TIME.name(), UserSessionUtil.getNowDateStr());
-            userSimpleRedisTemplate.expire(token, Common.TOKEN_EXPIRE_SECOND);
+            userSimpleRedisTemplate.expire(token, userRedisProperties.getTokenExpireSecond());
         }
     }
 
     @Override
     public void handleOldToken(String token) {
         if (StringUtils.isNoneBlank(token)) {
-            userSimpleRedisTemplate.expire(token, Common.OLD_TOKEN_EXPIRE_SECOND);
+            userSimpleRedisTemplate.expire(token, userRedisProperties.getOldTokenExpireSecond());
         }
     }
 }
