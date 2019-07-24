@@ -324,22 +324,22 @@ public List<Demo> selectFromReadDataSource(String name) {
 2.  自定义`sql`语句
 	+ 定义`SqlProvider`。
 	
-     ```
+```java
   public class DemoSqlProvider {
-        /**
-         * 自定义sql 根据 `name` 模糊查询
-         */
-        public String customizeSqlSelectByName(@Param("name") final String name) {
-            String table = SqlHelper.getDynamicTableName(Demo.class, Demo.class.getAnnotation(Table.class).name());
-            String allColumns = SqlHelper.getAllColumns(Demo.class);
-            return new SQL() {{
-                SELECT(allColumns);
-                FROM(table);
-                WHERE("demo_name like CONCAT('%',#{name},'%')");
-            }}.toString();
-        }
+	/**
+	 * 自定义sql 根据 `name` 模糊查询
+	 */
+	public String customizeSqlSelectByName(@Param("name") final String name) {
+	    String table = SqlHelper.getDynamicTableName(Demo.class, Demo.class.getAnnotation(Table.class).name());
+	    String allColumns = SqlHelper.getAllColumns(Demo.class);
+	    return new SQL() {{
+		SELECT(allColumns);
+		FROM(table);
+		WHERE("demo_name like CONCAT('%',#{name},'%')");
+	    }}.toString();
+	}
       }
-     ```
+```
   + 在`Mapper`声明方法。
        ```java
         @Repository
