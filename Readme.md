@@ -451,34 +451,34 @@ public List<Demo> selectFromReadDataSource(String name) {
 4. 正常业务有关多语言调用
   ```java
   I18nSourceUtil.INSTANCE.getMessage(key);
-  ---
+  
   key 为 语言文件中配置的 key,
   ```
 5. 枚举类有关多语言调用
 	```java
 	@AllArgsConstructor
-  @Getter
-  public enum TestI18nEnum implements I18nEnumInterface {
-      TEST_ONE("testOne"),
-      TEST_TWO("testTwo");
-      
-      private String name;
+	@Getter
+	public enum TestI18nEnum implements I18nEnumInterface {
+	TEST_ONE("testOne"),
+	TEST_TWO("testTwo");
 
-      @Override
-      public String getI18nCode() {
-          return name;
-      }
-      
-      @Override
-      public String getI18nKey() {
-          return name;
-      }
-  }
+	private String name;
 
-  ---
-  TestI18nEnum.TEST_ONE.getI8nMessage(); -- 可以获取 语言文件中 getI18nKey 返回 code 对应的 value 值。
-  
-  I18nEnumInterface.as18nList(TestI18nEnum.class); -- 可以把该枚举转换成 key-value 的 list,常用于返回给客户端下拉列表。
+	@Override
+	public String getI18nCode() {
+	  return name;
+	}
+
+	@Override
+	public String getI18nKey() {
+	  return name;
+	}
+	}
+
+
+	TestI18nEnum.TEST_ONE.getI8nMessage(); -- 可以获取 语言文件中 getI18nKey 返回 code 对应的 value 值。
+
+	I18nEnumInterface.as18nList(TestI18nEnum.class); -- 可以把该枚举转换成 key-value 的 list,常用于返回给客户端下拉列表。
 	```
 6. 数据字典有关多语言调用。
 由于各个不同的业务数据字典设计可能各不相同，在此只是个人的一种设计，不一定是最优方法。
