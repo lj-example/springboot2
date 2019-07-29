@@ -56,6 +56,8 @@
 
 ## commons
 ### common-util-base
+<details>
+	
 #### 描述
 1. 常用的`util`工具，该模块下的工具一般都是静态方法。
 ##### collection
@@ -153,6 +155,8 @@ System.out.println(DateFormatUtil.DEFAULT_FORMAT.format(new Date()));
       }
   }
   ```
+</details>
+
 ---
 ### common-util-dataSource
 #### 描述
