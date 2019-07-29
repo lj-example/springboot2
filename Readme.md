@@ -61,8 +61,8 @@
 3. 该模块中的组件应当区分于`commons`包：开发无感知且不需要通过声明`bean`使用的组件。
 
 </details>
----
 
+---
 
 ## commons
 ### common-util-base
@@ -169,6 +169,9 @@ System.out.println(DateFormatUtil.DEFAULT_FORMAT.format(new Date()));
 
 ---
 ### common-util-dataSource
+
+<details>
+	
 #### 描述
 + `dataSource` 提供了基于`spring-boot`配置的多自动数据源注入、`mybatis`组件自动装配、`Druid`监控自动装配。
 + 该模块依赖`com.alibaba.druid`：阿里的数据库连击工具。
@@ -285,8 +288,13 @@ public List<Demo> selectFromReadDataSource(String name) {
   ```
 **如果 重写 `Aop`，务必保证在执行主体方法之前 `DynamicHandler`中已经设置了`DataSourceKey`。**
 
+</details>
+
 ---
 ### common-util-mybatis
+
+<details>
+	
 #### 描述
 + 提供基于`tk.mybatis.mapper.starter` 简单`sql`工具、`pagehelper-spring-boot-starter`分页工具。
 + 建议配合`common-util-dataSource`一起使用，可以快速实现多数据源、持久层集成。
@@ -394,9 +402,14 @@ public List<Demo> selectFromReadDataSource(String name) {
     PageInfo<Demo> pageInfo = PageHelper.startPage(pageNum, pageSize)
             .doSelectPageInfo(() -> demoService.selectByExample(example));
      ```
+     
+</details>
 
 ---
 ### common-util-redis
+
+<details>
+	
 #### 描述
 
 + 提供基于`spring-boot-starter-data-redis`工具，实现了`key`服务隔离。
@@ -441,8 +454,13 @@ public List<Demo> selectFromReadDataSource(String name) {
 #### 扩展
 暂无
 
+</details>
+
 ---
 ### common-util-i18n
+
+<details>
+	
 #### 描述
 + 提供了基于`spring-message`的多语言解决方案。
 + 扩展了`spring-message`语言检索策略。
@@ -569,9 +587,14 @@ public List<Demo> selectFromReadDataSource(String name) {
 		public void enablePath() { }
 	    }
     ```
+    
+</details>
+
 ---
 ### common-util-mail
 
+<details>
+	
 #### 描述
 + 提供了基于`spring-boot-starter-mail`封装的邮件发送工具。
 + 该工具使用了全异步处理事件。
@@ -675,6 +698,8 @@ public List<Demo> selectFromReadDataSource(String name) {
   }
   ```
 `FreeMarkerConfigurer` 可以根据业务需求决定是否生成。`MailSenderTemplate`为邮件发送工具`bean`。使用如上构造方法构建`bean`即可注入一个其他 配置的`bean`。
+
+</details>
 
 ---
 ## starts
