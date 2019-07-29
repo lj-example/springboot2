@@ -173,7 +173,7 @@ System.out.println(DateFormatUtil.DEFAULT_FORMAT.format(new Date()));
 ### common-util-dataSource
 
 <details>
-<summary>基于`spring-boot`配置的多数据源自动注入、`mybatis`组件自动装配、`Druid`监控自动装配</summary>
+<summary>基于spring-boot配置的多数据源自动注入、mybatis组件自动装配、Druid监控自动装配</summary>
 
 #### 描述
 + `dataSource` 提供了基于`spring-boot`配置的多自动数据源注入、`mybatis`组件自动装配、`Druid`监控自动装配。
@@ -297,7 +297,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### common-util-mybatis
 
 <details>
-<summary>基于`tk.mybatis.mapper.starter` 简单`sql`工具、`pagehelper-spring-boot-starter`分页工具</summary>
+<summary>基于tk.mybatis.mapper.starter 简单sql工具、pagehelper-spring-boot-starter分页工具</summary>
 
 #### 描述
 + 提供基于`tk.mybatis.mapper.starter` 简单`sql`工具、`pagehelper-spring-boot-starter`分页工具。
@@ -413,7 +413,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### common-util-redis
 
 <details>
-<summary>基于`spring-boot-starter-data-redis`工具，实现了key服务隔离</summary>
+<summary>基于spring-boot-starter-data-redis工具，实现了key服务隔离</summary>
 
 #### 描述
 
@@ -465,7 +465,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### common-util-i18n
 
 <details>
-<summary>基于`spring-message`的多语言解决方案</summary>
+<summary>基于spring-message的多语言解决方案</summary>
 
 #### 描述
 + 提供了基于`spring-message`的多语言解决方案。
@@ -713,7 +713,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### start-web-tool
 
 <details>
-<summary>`spring-web`项目的基本信息配置</summary>
+<summary>spring-web项目的基本信息配置</summary>
 
 #### 描述
 + 提供了`spring-web`项目的基本信息配置。
@@ -802,7 +802,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### start-web-user
 
 <details>
-<summary>基于`redis`的`token`无状态用户登录信息状态管理</summary>
+<summary>基于redis的token无状态用户登录信息状态管理</summary>
 
 #### 描述
 + 提供了一个基于`redis`的`token`无状态用户登录信息状态管理。
