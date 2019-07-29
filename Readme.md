@@ -704,6 +704,9 @@ public List<Demo> selectFromReadDataSource(String name) {
 ---
 ## starts
 ### start-web-tool
+
+<details>
+
 #### 描述
 + 提供了`spring-web`项目的基本信息配置。
 + 统一异常处理器。
@@ -784,8 +787,14 @@ public List<Demo> selectFromReadDataSource(String name) {
   
   如果如上依旧不能满足需求，可以考虑重写 supports 方法
   ```
+  
+</details>
+
 ---
 ### start-web-user
+
+<details>
+	
 #### 描述
 + 提供了一个基于`redis`的`token`无状态用户登录信息状态管理。
 + 提供了基于注解的`userToken`信息转换。
@@ -871,3 +880,5 @@ public List<Demo> selectFromReadDataSource(String name) {
       }
     }
     ```
+    
+ </details>
