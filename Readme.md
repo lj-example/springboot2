@@ -1,6 +1,14 @@
-*[`common-util`](#common-util-dataSource)
-
-
+## 目录
+<details>
+<summary>详细信息</summary>
+*[`common-util-base`：常用工具](#common-util-base)
+*[`common-util-dataSource`：基于`spring-boot`配置的多自动数据源注入、`mybatis`组件自动装配、`Druid`监控自动装配](#common-util-dataSource)
+*[`common-util-mybatis`：基于`tk.mybatis.mapper.starter` 简单`sql`工具、`pagehelper-spring-boot-starter`分页工具(#common-util-mybatis)
+*[`common-util-redis`：`基于`spring-boot-starter-data-redis`工具，实现了key服务隔离](#common-util-redis)
+*[`common-util-i18n`：基于`spring-message`的多语言解决方案](#common-util-i18n)
+*[`start-web-tool`：`spring-web`项目的基本信息配置](#start-web-tool)
+*[`start-web-user`：基于`redis`的`token`无状态用户登录信息状态管理](#start-web-user)
+</details>
 
 ## 项目启动请访问`http://localhost:8080/t/doc.html`,需要额外配置 `dev`文件。
 ## 写在前面
@@ -419,7 +427,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 ---
 ### common-util-i18n
 #### 描述
-+ 提供了基于`spring-message`的对语言解决方案。
++ 提供了基于`spring-message`的多语言解决方案。
 + 扩展了`spring-message`语言检索策略。
 + 提供了**正常业务**、**枚举类**、**数据字典** 多语言工具。
 + 提供了一套多语言文件分包配置的解决方案。
