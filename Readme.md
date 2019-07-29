@@ -67,7 +67,8 @@
 ## commons
 ### common-util-base
 <details>
-	
+<summary>常用工具</summary>
+
 #### 描述
 1. 常用的`util`工具，该模块下的工具一般都是静态方法。
 ##### collection
@@ -171,7 +172,8 @@ System.out.println(DateFormatUtil.DEFAULT_FORMAT.format(new Date()));
 ### common-util-dataSource
 
 <details>
-	
+<summary>基于`spring-boot`配置的多数据源自动注入、`mybatis`组件自动装配、`Druid`监控自动装配</summary>
+
 #### 描述
 + `dataSource` 提供了基于`spring-boot`配置的多自动数据源注入、`mybatis`组件自动装配、`Druid`监控自动装配。
 + 该模块依赖`com.alibaba.druid`：阿里的数据库连击工具。
@@ -294,7 +296,8 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### common-util-mybatis
 
 <details>
-	
+<summary>基于`tk.mybatis.mapper.starter` 简单`sql`工具、`pagehelper-spring-boot-starter`分页工具</summary>
+
 #### 描述
 + 提供基于`tk.mybatis.mapper.starter` 简单`sql`工具、`pagehelper-spring-boot-starter`分页工具。
 + 建议配合`common-util-dataSource`一起使用，可以快速实现多数据源、持久层集成。
@@ -409,7 +412,8 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### common-util-redis
 
 <details>
-	
+<summary>基于`spring-boot-starter-data-redis`工具，实现了key服务隔离</summary>
+
 #### 描述
 
 + 提供基于`spring-boot-starter-data-redis`工具，实现了`key`服务隔离。
@@ -460,7 +464,8 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### common-util-i18n
 
 <details>
-	
+<summary>基于`spring-message`的多语言解决方案</summary>
+
 #### 描述
 + 提供了基于`spring-message`的多语言解决方案。
 + 扩展了`spring-message`语言检索策略。
@@ -706,6 +711,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### start-web-tool
 
 <details>
+<summary>`spring-web`项目的基本信息配置</summary>
 
 #### 描述
 + 提供了`spring-web`项目的基本信息配置。
@@ -794,7 +800,8 @@ public List<Demo> selectFromReadDataSource(String name) {
 ### start-web-user
 
 <details>
-	
+<summary>基于`redis`的`token`无状态用户登录信息状态管理</summary>
+
 #### 描述
 + 提供了一个基于`redis`的`token`无状态用户登录信息状态管理。
 + 提供了基于注解的`userToken`信息转换。
