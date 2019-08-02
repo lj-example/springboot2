@@ -1,7 +1,5 @@
 package com.lj.spring.web.user.common;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Created by junli on 2019-07-02
  */
