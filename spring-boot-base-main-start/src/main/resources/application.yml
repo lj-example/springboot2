@@ -3,8 +3,6 @@ server:
   servlet:
     context-path: /t
 
-
-
 spring:
     profiles:
       active: dev

@@ -58,24 +58,32 @@ public class TokenMethodArgumentResolver extends RequestHeaderMethodArgumentReso
      */
     @Override
     protected Object resolveName(String name, MethodParameter parameter, NativeWebRequest request) throws Exception {
-        String token = (String) super.resolveName(name, parameter, request);
-        if (StringUtils.isBlank(token)) {
-            userIllegalTokenHandleService.assertAndHandleNoTokenHead();
-        }
         //获取配置信息
         UserToken tokenConfig = parameter.getParameterAnnotation(UserToken.class);
+        final boolean required = tokenConfig.required();
+        final boolean check = tokenConfig.check();
+        String token = (String) super.resolveName(name, parameter, request);
+        if (StringUtils.isBlank(token)) {
+            if (required) {
+                userIllegalTokenHandleService.assertAndHandleNoTokenHead();
+            }
+            return null;
+        }
         Class<?> parameterType = parameter.getParameterType();
         //是否只需要简单数据（userId）
         boolean isSimple = parameterType == long.class || Long.class.isAssignableFrom(parameterType);
-        if (isSimple && !tokenConfig.check()) {
+        if (isSimple && !check) {
             return userSessionService.getUserIdByToken(token);
         }
         UserSessionRedis userSessionRedisByToken = userSessionService.getUserSessionRedisByToken(token);
         if (Objects.isNull(userSessionRedisByToken) || StringUtils.isBlank(userSessionRedisByToken.getMobile())) {
-            //信息不存、手机号不存在
-            userIllegalTokenHandleService.assertAndHandleNoTokenInfo();
+            if (required) {
+                //信息不存、手机号不存在
+                userIllegalTokenHandleService.assertAndHandleNoTokenInfo();
+            }
+            return null;
         }
-        if (tokenConfig.check()) {
+        if (check) {
             //校验token
             assertAndHandleSession(userSessionRedisByToken, token);
         }
