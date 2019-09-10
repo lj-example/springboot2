@@ -550,7 +550,7 @@ public List<Demo> selectFromReadDataSource(String name) {
   ```
 #### 扩展
 1.  该模块通过注册了一个拦截器在`head`中获取的语言信息，可以自定义拦截器来覆盖默认拦截器。**请务必保证重写的`beanName`为`Common.I18N_INTERCEPTOR_NAME`，务必保证进入方法之前`I18nResourceHandler`有语言信息。**
-	```
+	```java
 		@Component(value = Common.I18N_INTERCEPTOR_NAME)
 		public class I18nInterceptorConfiguration implements HandlerInterceptor {
 
@@ -585,7 +585,7 @@ public List<Demo> selectFromReadDataSource(String name) {
     ```
    但是这种情况配置默认的`Aop`就无法生效，建议按照如下扩展：
   
-    ```
+    ```java
 	    @Aspect
 	    @Component
 	    public class I18nAspectTemplateComponent extends AbstractI18nAspectTemplate {
@@ -780,7 +780,7 @@ public List<Demo> selectFromReadDataSource(String name) {
   }
   ```
 3. 扩展参数解析器，如果当前项目中集成了其他的`web`项目，例如`swagger`，统一的增强结果封装也会封装这类的请求接口从而导致`web`组件失效，此时可以通过扩展参数解析来解决。
-  ```
+  ```java
   @RestControllerAdvice
   public class ResponseAdviceConfiguration extends AbstractResponseAdviceTemplate {
 
@@ -813,7 +813,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 
 #### 使用
 1.  考虑在生成环境中用户登录信息`redis`一般会与业务分开，在`yml`文件中配置`user-redis`使用的`redis`信息。
-  ```
+  ```yml
   user-sessions:
     redis:
       password:
@@ -834,7 +834,7 @@ public List<Demo> selectFromReadDataSource(String name) {
     String token = userLoginSessionService.buildUserTokenAfterLogin(businessBo);
     ```
 	+ 2.2 登出逻辑
-    ```
+    ```java
     //处理正常登出逻辑之后
     userLoginSessionService.cleanUserTokenAfterLoginOut(token);
     ```
@@ -858,7 +858,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 	  
 #### 扩展
   1. 扩展异常提示信息，组件默认提供了不同情况下的异常信息提示，可以根据实际情况自定义异常信息提示。
-  ```
+  ```java
     @Slf4j
     @Component
     @RequiredArgsConstructor
@@ -905,7 +905,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 #### 使用
 1. 开启版本控制，`spring.version.enable:true`默认开启。
 2. 类级别控制。
-```
+```java
 @RestController
 @RequestMapping("apiVersion")
 @RequiredArgsConstructor
@@ -920,7 +920,7 @@ public class ApiVersionController(){
  + 兼容模式：2 、V2 等价：V2。
 
 3. 方法级别控制
-```
+```java
 /**
  * 方法版本控制
  * 该接口只能在 渠道为 1,3 的客户端生效
@@ -931,7 +931,7 @@ public Result apiForMethod() {
 	return ResultSuccess.defaultResultSuccess();
 }
 ```
-```
+```java
 /**
  * 方法版本控制
  * 该接口只有在 客户端版本 > 2.2，渠道号为 1001、1002 ,来源非 IOS 情况下生效
