@@ -18,6 +18,7 @@
         <module>spring-boot-start-final</module>
         <module>spring-boot-start-web-tool</module>
         <module>spring-boot-start-web-user</module>
+        <module>spring-boot-start-web-version</module>
     </modules>
 
 </project>

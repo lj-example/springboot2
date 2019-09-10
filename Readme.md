@@ -14,8 +14,9 @@
 * [`common-util-redis`：基于`spring-boot-starter-data-redis`工具，实现了key服务隔离](#common-util-redis)
 * [`common-util-i18n`：基于`spring-message`的多语言解决方案](#common-util-i18n)
 * [`common-util-mail`：基于spring-boot-starter-mail封装的邮件发送工具](#common-util-mail)
-* [`start-web-tool`：`spring-web`项目的基本信息配置](#start-web-tool)
-* [`start-web-user`：基于`redis`的`token`无状态用户登录信息状态管理](#start-web-user)
+* [`starts-web-tool`：`spring-web`项目的基本信息配置](#starts-web-tool)
+* [`starts-web-user`：基于`redis`的`token`无状态用户登录信息状态管理](#starts-web-user)
+* [`starts-web-version`：基于注解的接口版本控制、隔离](#starts-web-version)
 
 </details>
 
@@ -710,7 +711,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 
 ---
 ## starts
-### start-web-tool
+### starts-web-tool
 
 <details>
 <summary>spring-web项目的基本信息配置</summary>
@@ -799,7 +800,7 @@ public List<Demo> selectFromReadDataSource(String name) {
 </details>
 
 ---
-### start-web-user
+### starts-web-user
 
 <details>
 <summary>基于redis的token无状态用户登录信息状态管理</summary>
@@ -889,7 +890,69 @@ public List<Demo> selectFromReadDataSource(String name) {
       }
     }
     ```
-    
-    
-    
+   
  </details>
+---
+
+
+### starts-web-version
+<details>
+<summary>基于注解的Api接口版本管理,实现不同客户端接口隔离</summary>
+
+#### 描述
++ 提供了基于注解的接口版本控制器功能。
++ 实现了多终端接口隔离。
++ 提供多种可选注解，可以灵活自由搭配。
++ 该实现中需要使用`Head`公共信息，`Head`公共信息在`HeadCommon`中与客户端约定好。
+#### 使用
+1. 开启版本控制，`spring.version.enable:true`默认开启。
+2. 类级别控制。
+```
+@RestController
+@RequestMapping("apiVersion")
+@RequiredArgsConstructor
+@ApiVersion("v2")
+public class ApiVersionController(){
+    ...
+}
+```
+ + 添加注解 `@ApiVersion("v2")`。
+ + 设置当前类下所有接口访问的最低版本信息，与方法上的配置 为 "&&"关系，如例所示: 该类最低版本未"V2",对应：VERSION 参数 `version.compareTo("2") >= 0`。
+ + 该配置会在请求路径中自动生成版本信息，因此该类的请求路径为 apiVersion/xx -> v2/apiVersion/xx。
+ + 兼容模式：2 、V2 等价：V2。
+
+3. 方法级别控制
+```
+/**
+ * 方法版本控制
+ * 该接口只能在 渠道为 1,3 的客户端生效
+ */
+@GetMapping("apiForMethod")
+@ApiClientInfo(channel = @ApiClientChannel(value = "1,3", operator = VersionOperator.IN))
+public Result apiForMethod() {
+	return ResultSuccess.defaultResultSuccess();
+}
+```
+```
+/**
+ * 方法版本控制
+ * 该接口只有在 客户端版本 > 2.2，渠道号为 1001、1002 ,来源非 IOS 情况下生效
+ */
+@GetMapping("apiForTypeAndMethod")
+@ApiClientInfo(
+	version = @ApiClientVersion(value = "2.2", operator = VersionOperator.GT),
+	channel = @ApiClientChannel(value = "1001,1002", operator = VersionOperator.IN),
+	platform = @ApiClientPlatform(value = "ios", operator = VersionOperator.NE)
+)
+public Result apiForTypeAndMethod() {
+	return ResultSuccess.defaultResultSuccess();
+}
+```
++ 该配置为方法上版本、渠道、来源限制。三个条件为 "&&" 关系
++ `version`: 配置该接口版本信息，与类上配置 "&&" 关系，如例所示，该接口实际对应版本信息为: `>2.2`
++ `channel`: 配置该接口渠道信息，如例所示，该接口对应渠道为：1001 || 1002, 不区分大小写
++ `platform`:配置该接口来源信息，如例所示，该接口对应来源为：ios，不区分大小写
+
+#### 扩展
+暂无
+</details>

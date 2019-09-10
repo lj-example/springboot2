@@ -68,6 +68,7 @@
             <artifactId>common-util-i18n</artifactId>
         </dependency>
 
+        <!-- 邮件相关 -->
         <dependency>
             <groupId>com.lj.springBoot</groupId>
             <artifactId>common-util-mail</artifactId>
@@ -78,10 +79,18 @@
             <artifactId>spring-boot-start-web-tool</artifactId>
         </dependency>
 
+        <!-- web user token -->
         <dependency>
             <groupId>com.lj.springBoot</groupId>
             <artifactId>spring-boot-start-web-user</artifactId>
         </dependency>
+
+        <!-- web version -->
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
+            <artifactId>spring-boot-start-web-version</artifactId>
+        </dependency>
+
         <!-- ########################## 自定义组件 结束 ##############################-->
     </dependencies>
 

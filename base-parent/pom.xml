@@ -68,6 +68,8 @@
         <spring-boot-start-final.version>1.0-SNAPSHOT</spring-boot-start-final.version>
         <spring-boot-start-web-tool.version>1.0-SNAPSHOT</spring-boot-start-web-tool.version>
         <spring-boot-start-web-user.version>1.0-SNAPSHOT</spring-boot-start-web-user.version>
+        <spring-boot-start-web-web.version>1.0-SNAPSHOT</spring-boot-start-web-web.version>
+
 
     </properties>
 
@@ -167,6 +169,13 @@
                 <groupId>com.lj.springBoot</groupId>
                 <artifactId>spring-boot-start-web-user</artifactId>
                 <version>${spring-boot-start-web-user.version}</version>
+            </dependency>
+
+            <!-- api-version 相关操作 -->
+            <dependency>
+                <groupId>com.lj.springBoot</groupId>
+                <artifactId>spring-boot-start-web-version</artifactId>
+                <version>${spring-boot-start-web-web.version}</version>
             </dependency>
 
             <!-- 系统常用工具 -->

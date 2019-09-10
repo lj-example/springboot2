@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.lj.spring.web.version.support.AutoApiVersionConfigure

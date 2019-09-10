@@ -2,6 +2,9 @@ package com.lj.demo.spring.config.swagger;
 
 import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import com.google.common.collect.Lists;
+import com.lj.spring.common.head.HeadCommon;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -18,7 +21,9 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 参考地址信息 - https://doc.xiaominfo.com/guide/useful.html
@@ -74,6 +79,7 @@ public class Swagger2Config implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.DELETE, responseMessageList)
                 .globalResponseMessage(RequestMethod.PUT, responseMessageList)
                 .globalResponseMessage(RequestMethod.OPTIONS, responseMessageList)
+                .globalOperationParameters(HeadParameterEnum.getAllAsParameterList())
                 .useDefaultResponseMessages(false)
                 .groupName("分组信息")
                 .apiInfo(apiInfo())
@@ -99,18 +105,72 @@ public class Swagger2Config implements WebMvcConfigurer {
      * 返回全局参数设置列表
      */
     private List<Parameter> parameterList() {
-        ArrayList<Parameter> parameterArrayList = Lists.newArrayList();
-        Parameter tokenParameter = new ParameterBuilder()
-                .name("headToken")
-                .description("headToken")
-                .defaultValue("tokenInfo")
-                .modelRef(new ModelRef("String"))
-                .parameterType("header")
-                .required(false)
-                .build();
-        parameterArrayList.add(tokenParameter);
-        return parameterArrayList;
+        return HeadParameterEnum.getAllAsParameterList();
     }
+
+    /**************************- 配置公共头信息 开始-***************************/
+
+    /**
+     * 配置公共头信息
+     */
+    @AllArgsConstructor
+    @Getter
+    enum HeadParameterEnum {
+        USER_TOKEN(HeadCommon.USER_TOKEN, "用户token,登录之后返回的值", "", "String", "header", false),
+        CLIENT_VERSION(HeadCommon.VERSION, "客户端版本号", "1.0", "String", "header", false),
+        LANG("LOCALE", "语言,eg:vi_VN,zh_CN,en_US", "zh_CN", "String", "header", false),
+        PLATFORM(HeadCommon.PLATFORM, "来源 android ios h5", "", "String", "header", false),
+        CHANNEL(HeadCommon.CHANNEL, "渠道 应用宝 小米商店", "", "String", "header", false),
+
+        ;
+        /**
+         * 名称
+         */
+        private String name;
+
+        /**
+         * 描述
+         */
+        private String description;
+        /**
+         * 默认值
+         */
+        private String defaultValue;
+
+        /**
+         * 参数字段类型
+         */
+        private String modelRef;
+
+        /**
+         * 参数请求类型
+         */
+        private String parameterType;
+
+        /**
+         * 是否是必须字段
+         */
+        private Boolean required;
+
+        /**
+         * 获取参数集合
+         */
+        public static List<Parameter> getAllAsParameterList() {
+            return Arrays.stream(HeadParameterEnum.values())
+                    .map(headParameterEnum ->
+                            new ParameterBuilder()
+                                    .name(headParameterEnum.getName())
+                                    .description(headParameterEnum.getDescription())
+                                    .defaultValue(headParameterEnum.getDefaultValue())
+                                    .modelRef(new ModelRef(headParameterEnum.getModelRef()))
+                                    .parameterType(headParameterEnum.getParameterType())
+                                    .required(headParameterEnum.getRequired())
+                                    .build()
+                    ).collect(Collectors.toList());
+        }
+    }
+    /**************************- 配置公共头信息 结束-***************************/
+
 
     /**
      * 根据Http状态码构建描述信息
