@@ -64,6 +64,9 @@ public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandle
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
         RequestMappingInfo mappingForMethod = super.getMappingForMethod(method, handlerType);
         //尝试从 当前类上获取 配置的路径信息，用以更改路径
+        if (Objects.isNull(mappingForMethod)) {
+            return null;
+        }
         ApiVersion apiVersionAnnotation = AnnotatedElementUtils.findMergedAnnotation(handlerType, ApiVersion.class);
         if (Objects.isNull(apiVersionAnnotation)) {
             return mappingForMethod;
