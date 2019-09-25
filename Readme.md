@@ -197,7 +197,7 @@ spring:
       enable: false
     ### mybatis自动配置
     mybatis:
-      enable: enable
+      enable: true
     url: xx
     username: xx
     password: xx
@@ -222,25 +222,25 @@ public List<Demo> selectFromReadDataSource(String name) {
   ```
 
 
-1. `autoDataSource : enable`：是否开启`dataSource`自动注入，默认`enable`开启，开启该配置，会在启动时候根据配置的数据源信息注入**两个`bean`**
+1. `autoDataSource : enable`：是否开启`dataSource`自动注入，默认`true`开启，开启该配置，会在启动时候根据配置的数据源信息注入**两个`bean`**
 	+ `DataSource(name = masterDataSource)`：`DruidDataSource`对象，对应配置信息为`spring.datasource.url`指定的数据源信息。
 	+ `MultiDataSources(name = multiDataSources)`：包含一个字段`Map<String,DataSource>`：`key`为 `dynamicDataSource` 中数据源名称，`DatsSource`为`DruidDataSource`对象，对应配置信息为各个数据源指定的配置信息。
 	
-2. `monitor : enable`：是否`DruidDatsSource`监控，默认`enable`开启，非`enable` 关闭，开启该配置，会在项目中提供`druid`的监控服务，包括`sql`监控、`web`请求监控，由于该信息写在内存中，所以会随项目启动被清除，也可以扩展接入日志持久化，具体信息可以参考`Druid`官方。
+2. `monitor : enable`：是否`DruidDatsSource`监控，默认`true`开启，非`true` 关闭，开启该配置，会在项目中提供`druid`的监控服务，包括`sql`监控、`web`请求监控，由于该信息写在内存中，所以会随项目启动被清除，也可以扩展接入日志持久化，具体信息可以参考`Druid`官方。
 	+ 开启之后访问路径为：`http://host:port/druid`。
 	+ 该配置提供自定义配置文件，对应类信息为：`MultiDruidProperties.MonitorProperties`，配置信息如下所示：
 	```yml
 	spring:
 	  datasource:
 	    monitor:
-	      enable: enable
+	      enable: true
 	      ### 白名单
 	      allow: xxxx
 	      ...
 	```
 	**强烈建议在线上服务中配置 白名单、黑名单，不要把该地址在对公网开放**。
 	
-3. `mybatis : enable`：是否开启`mybatis`自动装备，默认`enable`开启，开启该配置，会在启动时候根据配置信息注入`mybatis-SqlSessionFactory`、`mybatis-SqlSessionTemplate`、`mybatis-DataSourceTransactionManager`。
+3. `mybatis : enable`：是否开启`mybatis`自动装备，默认`true`开启，开启该配置，会在启动时候根据配置信息注入`mybatis-SqlSessionFactory`、`mybatis-SqlSessionTemplate`、`mybatis-DataSourceTransactionManager`。
   
 	+ **该配置只有在开启了`autoDataSource`才会生效。**
 	+ 该配置会注册一个基于`AbstractRoutingDataSource`实现的多数据源`bean`, `DynamicDataSource(name = dynamicDataSource)`。
