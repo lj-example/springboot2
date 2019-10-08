@@ -14,9 +14,7 @@ spring:
       #### 使用之后，springboot默认的资源根路径，都需要添加/static前缀
       static-path-pattern: /static/**
 
-debug: true
-
 logging:
   config: "classpath:config/log4j2-${spring.profiles.active}.xml"
 
-
+debug: true

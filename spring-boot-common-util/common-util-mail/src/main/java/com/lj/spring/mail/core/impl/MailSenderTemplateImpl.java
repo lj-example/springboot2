@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import java.io.File;
@@ -239,14 +240,14 @@ public class MailSenderTemplateImpl implements MailSenderTemplate, InitializingB
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         final String charset = mailProperties.getCharset().name();
         try {
-            mimeMessage.setFrom(mailProperties.getUsername());
+            mimeMessage.setFrom(new InternetAddress(mailProperties.getUsername(), mailProperties.getNickname(), "UTF-8"));
             mimeMessage.setSubject(simpleMailMessage.getSubject(), charset);
             mimeMessage.setText(simpleMailMessage.getContent(), charset);
             //设置邮件发送时间
             if (null != simpleMailMessage.getDate()) {
                 mimeMessage.setSentDate(simpleMailMessage.getDate());
             }
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             log.info(buildFailMessage("邮件基础信息构建失败！"));
             e.printStackTrace();
         }

@@ -33,6 +33,11 @@ public class MailProperties {
     private String username = "xxxx";
 
     /**
+     * 昵称
+     */
+    private String nickname = "xxx";
+
+    /**
      * 密码
      */
     private String password = "xxxx";

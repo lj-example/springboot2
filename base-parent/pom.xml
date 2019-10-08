@@ -56,6 +56,9 @@
         <!--json-->
         <fastjson.version>1.2.31</fastjson.version>
 
+        <!-- apollo -->
+        <apollo-client.version>1.1.0</apollo-client.version>
+
         <!--常用工具-->
         <spring-boot-common-util-mail.version>1.0-SNAPSHOT</spring-boot-common-util-mail.version>
         <spring-boot-common-util-base.version>1.0-SNAPSHOT</spring-boot-common-util-base.version>
@@ -84,6 +87,7 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- spring-cloud 相关 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -147,6 +151,13 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>swagger-bootstrap-ui</artifactId>
                 <version>${springfox-swagger-ui.version}</version>
+            </dependency>
+
+            <!-- Apollo -->
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-client</artifactId>
+                <version>${apollo-client.version}</version>
             </dependency>
 
             <!-- ########################## 自定义组件 开始 ##############################-->

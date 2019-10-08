@@ -17,5 +17,8 @@ public interface UserTokenApi {
 
     @ApiOperation(value = "登出")
     Result loginOut(@ApiIgnore String token, @ApiIgnore UserSession userSession);
+
+    @ApiOperation(value = "登录信息测试")
+    Result check(@ApiIgnore String token, @ApiIgnore UserSession userSession);
 }
 

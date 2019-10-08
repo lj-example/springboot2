@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    ### 数据源
+    autoDataSource: enable
+    ### 监控
+    monitor:
+      enable: true
+    ### mybatis自动配置
+    mybatis:
+      enable: true
+
+## uerRedis
+user-sessions:
+  redis:
+    password:
+    cluster:
+      nodes: 106.13.74.65:7000,106.13.74.65:7001,106.13.74.65:7002,106.13.74.65:7003,106.13.74.65:7004,106.13.74.65:7005

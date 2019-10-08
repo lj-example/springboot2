@@ -1,4 +1,4 @@
-package com.lj.demo.spring.config.dataSource;
+package com.lj.demo.spring.config.data.source;
 
 /**
  * 数据源名称配置，该名称必须对应 spring.datasource.dynamicDataSource 下的名称

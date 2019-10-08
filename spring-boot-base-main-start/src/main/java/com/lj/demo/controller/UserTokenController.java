@@ -5,6 +5,7 @@ import com.lj.spring.common.head.HeadCommon;
 import com.lj.spring.common.result.Result;
 import com.lj.spring.common.result.ResultFail;
 import com.lj.spring.common.result.ResultSuccess;
+import com.lj.spring.util.base.collection.HashMapBuilder;
 import com.lj.spring.web.user.annotation.UserToken;
 import com.lj.spring.web.user.common.Common;
 import com.lj.spring.web.user.model.UserBusinessBo;
@@ -12,10 +13,9 @@ import com.lj.spring.web.user.model.UserSession;
 import com.lj.spring.web.user.service.login.UserLoginSessionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * Created by junli on 2019-07-23
@@ -47,6 +47,17 @@ public class UserTokenController implements UserTokenApi {
         String result = userSession.getMobile() + ":" + userSession.getUserId();
         userLoginSessionService.cleanUserTokenAfterLoginOut(token);
         return ResultSuccess.of(result);
+    }
+
+    @Override
+    @GetMapping("check")
+    public Result check(@RequestHeader(HeadCommon.USER_TOKEN) String token,
+                        @UserToken UserSession userSession) {
+        HashMap<Object, Object> map = HashMapBuilder.newBuilder()
+                .put("mobile", userSession.getMobile())
+                .put("id", userSession.getUserId())
+                .build();
+        return ResultSuccess.of(map);
     }
 }
 

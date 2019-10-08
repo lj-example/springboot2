@@ -4,11 +4,10 @@ package com.lj.demo.service.impl;
 import com.lj.demo.entity.model.Demo;
 import com.lj.demo.mapper.DemoMapper;
 import com.lj.demo.service.DemoService;
-import com.lj.demo.spring.config.dataSource.DataSourceName;
+import com.lj.demo.spring.config.data.source.DataSourceName;
 import com.lj.spring.dataSource.core.dynamic.DataSourceType;
 import com.lj.spring.mybatis.service.impl.BaseDecoratorServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -36,7 +36,7 @@ public class SelfDruidMonitorConfiguration {
     /**
      * 默认开启该配置对应的名称 - 值
      */
-    static final String NAME_DEFAULT_VALUE = "enable";
+    static final String NAME_DEFAULT_VALUE = "true";
 
     private final MultiDruidProperties multiDruidProperties;
 

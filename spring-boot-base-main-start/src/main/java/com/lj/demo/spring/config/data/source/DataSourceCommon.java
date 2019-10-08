@@ -1,4 +1,4 @@
-package com.lj.demo.spring.config.dataSource;
+package com.lj.demo.spring.config.data.source;
 
 import com.lj.spring.mybatis.common.DynamicMapperPackage;
 import org.springframework.context.annotation.Configuration;
