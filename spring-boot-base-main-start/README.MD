@@ -3,5 +3,8 @@
 ```$xml
 -Dapollo.configService=http://106.13.74.65:8080
 -Denv=DEV
--Ddev_meta=http://106.13.74.65:8080
+-Ddev.meta=http://106.13.74.65:8080
+-Dfat.meta=http://apollo.fat.xxx.com
+-Duat.meta=http://apollo.uat.xxx.com
+-Dpro.meta=http://apollo.xxx.com
 ```

@@ -82,6 +82,11 @@
 
         <dependency>
             <groupId>com.lj.springBoot</groupId>
+            <artifactId>common-util-httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lj.springBoot</groupId>
             <artifactId>spring-boot-start-web-tool</artifactId>
         </dependency>
 
